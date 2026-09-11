@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+  <!-- Google Tag Manager (mesmo container das demais landings do CPPEM).
+       Precisa ser o primeiro script do <head> — é ele que carrega a PixelX. -->
+  <script>(function(w,d,s,l){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'?l='+l:'';j.async=true;j.src=
+  'https://sgtm.cppem.com.br/metrics/'+dl;f.parentNode.insertBefore(j,f);})
+  (window,document,'script','dataLayer');</script>
+  <!-- End Google Tag Manager -->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A0B">
+
+<title>Preparatório Online PMPE — a preparação completa para a Polícia Militar de Pernambuco | CPPEM</title>
+<meta name="description" content="Mentoria completa para a PMPE com o Prof. Everton Mota: mentorias ao vivo semanais, cronograma individualizado, videoaulas e PDFs, metas diárias, TAF, psicotécnico e plataforma com IA. 1.320 vagas autorizadas.">
+
+<!-- ⚠️ PENDENTE: quando o domínio estiver definido, acrescentar aqui o
+     <link rel="canonical">, o og:url e o og:image (1200×630, URL ABSOLUTA —
+     WhatsApp e Instagram não aceitam caminho relativo). -->
+
+<link rel="icon" href="public/favicon.ico" sizes="48x48">
+<link rel="icon" href="public/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="icon" href="public/favicon-512.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="public/favicon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CPPEM Concursos Públicos">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Preparatório Online PMPE — a preparação completa para vestir a farda">
+<meta property="og:description" content="1.320 vagas autorizadas. Mentoria ao vivo com o Prof. Everton Mota, cronograma individualizado, TAF, psicotécnico e plataforma com IA.">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Em "offers" vai o TOTAL do checkout (437.00), e não o valor da parcela: o
+     Google compara o price com a tela de pagamento. Se o preço mudar, mudam
+     este price e o CONFIG do script.js. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Preparatório Online PMPE",
+  "offers": {
+    "@type": "Offer",
+    "price": "437.00",
+    "priceCurrency": "BRL",
+    "availability": "https://schema.org/InStock",
+    "category": "Paid",
+    "url": "https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01"
+  },
+  "description": "Mentoria completa para o concurso de Soldado da Polícia Militar de Pernambuco, com mentorias ao vivo semanais, cronograma individualizado, videoaulas e PDFs, preparação para TAF e psicotécnico.",
+  "provider": { "@type": "Organization", "name": "CPPEM Concursos Públicos", "url": "https://cppem.com.br" },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "instructor": { "@type": "Person", "name": "Everton Mota" }
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- Os dois emblemas entram na abertura, que é a primeira tela: sem o
+     preload eles só começam a baixar depois do CSS e voam vazios. -->
+<link rel="preload" as="image" href="public/brasao-pmpe.webp">
+<link rel="preload" as="image" href="public/emblema-leao.webp">
+
+<link rel="stylesheet" href="styles.css">
+
+<!-- A decisão da abertura é tomada AQUI, antes do CSS pintar, e não no
+     script.js do fim do body: entre um e outro a hero apareceria por um
+     quadro e depois seria coberta.
+       · toca uma vez por sessão (quem volta do checkout não assiste de novo)
+       · nunca toca para quem pediu menos movimento
+       · ?abertura=0 pula e ?abertura=1 força — para testar e para links de
+         anúncio em que cada segundo conta -->
+<script>
+  (function () {
+    var d = document.documentElement, q = location.search, visto = null;
+    try { visto = sessionStorage.getItem("pmpe-abertura"); } catch (e) {}
+    var reduz = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var tocar = /[?&]abertura=1/.test(q) || (!reduz && !visto && !/[?&]abertura=0/.test(q));
+    d.className += tocar ? " is-abertura" : " sem-abertura";
+  })();
+</script>
+</head>
+
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://sgtm.cppem.com.br/metrics/ns.html"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- =========================================================
+     A ABERTURA
+     ---------------------------------------------------------
+     O leão do CPPEM e o brasão da PMPE batem no meio da tela; da batida
+     nascem a placa, a costura e o nome do curso. Some sozinha em ~2,6s,
+     e qualquer toque pula. É decorativa: os dois emblemas são anunciados
+     de verdade logo abaixo, no medalhão da hero.
+     ========================================================= -->
+<div class="abertura" id="abertura" aria-hidden="true">
+  <div class="abertura__bg"></div>
+  <div class="abertura__veil"></div>
+  <div class="abertura__grid"></div>
+  <div class="abertura__scan"></div>
+  <div class="abertura__brasas" id="aberturaBrasas"></div>
+
+  <i class="abertura__halo"></i>
+  <i class="abertura__placa"><i></i></i>
+
+  <div class="choque">
+    <!-- Cada um vem do MESMO lado que ocupa no medalhão da hero (PMPE à
+         esquerda, leão à direita): a cena é a origem daquela peça. -->
+    <i class="choque__emblema choque__emblema--a">
+      <img src="public/brasao-pmpe.webp" alt="" width="357" height="419">
+    </i>
+    <i class="choque__emblema choque__emblema--b">
+      <img src="public/emblema-leao.webp" alt="" width="400" height="465">
+    </i>
+    <i class="choque__clarao"></i>
+    <i class="choque__onda"></i>
+    <i class="choque__onda choque__onda--2"></i>
+    <i class="choque__risco"></i>
+  </div>
+  <i class="abertura__costura"></i>
+  <div class="choque__cacos" id="choqueCacos"></div>
+
+  <div class="abertura__nome">
+    <span class="abertura__desig">Preparatório online</span>
+    <span class="abertura__titulo luz">PMPE</span>
+    <span class="abertura__corp">Polícia Militar de Pernambuco</span>
+  </div>
+
+  <button type="button" class="abertura__pular" tabindex="-1">
+    Pular
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </button>
+  <i class="abertura__tempo"></i>
+</div>
+
+<!-- Camadas globais da página -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="brasas" id="brasas" aria-hidden="true"></div>
+
+<div class="site" id="site">
+
+<!-- ================= HEADER ================= -->
+<header class="header" id="header">
+  <div class="header__inner">
+    <a class="brand" href="#topo" aria-label="CPPEM — início">
+      <span class="brand__leao">
+        <img src="public/emblema-leao.webp" alt="" width="400" height="465">
+      </span>
+      <span class="brand__nome">CPPEM<i>Concursos Públicos</i></span>
+    </a>
+
+    <nav class="nav" aria-label="Seções da página">
+      <a href="#concurso">O concurso</a>
+      <a href="#recebe">O que você recebe</a>
+      <a href="#plataforma">Plataforma</a>
+      <a href="#professor">Professor</a>
+      <a href="#preco">Investimento</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+
+    <a class="btn btn--gold shine" data-checkout href="https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01">
+      <span>Garantir vaga</span>
+    </a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="topo">
+  <div class="hero__bg" id="heroBg" aria-hidden="true"><i></i></div>
+  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__scan" aria-hidden="true"></div>
+  <div class="hero__dawn" aria-hidden="true"></div>
+  <div class="sparks" id="sparks" aria-hidden="true"></div>
+
+  <div class="container hero__inner">
+    <span class="tag anim d1">
+      <i class="dot" aria-hidden="true"></i>
+      1.320 vagas autorizadas · edital previsto para 2026
+    </span>
+
+    <h1 class="hero__title anim d2">
+      <span class="hero__desig">Preparatório online</span>
+      <span class="luz">PMPE</span>
+    </h1>
+
+    <!-- ─── O MEDALHÃO PARTIDO ─────────────────────────────────
+         PMPE de um lado, o leão do CPPEM do outro, com a costura de ouro no
+         meio: a mesma dupla que bateu na abertura, agora numa peça só.
+         Sem a abertura (2ª visita na sessão), é aqui que a colisão acontece.
+         Se uma imagem falhar, o script troca aquele lado pela sigla. -->
+    <div class="fusoes anim d3">
+      <div class="fusao-wrap">
+        <div class="fusao fusao--hero">
+          <span class="fusao__aro" aria-hidden="true"></span>
+          <span class="fusao__core">
+            <span class="fusao__lado fusao__lado--a">
+              <img src="public/brasao-pmpe.webp" alt="Brasão da Polícia Militar de Pernambuco" width="357" height="419">
+              <span class="fusao__sigla">PMPE</span>
+            </span>
+            <span class="fusao__lado fusao__lado--b">
+              <img src="public/emblema-leao.webp" alt="Emblema do CPPEM Concursos Públicos" width="400" height="465">
+              <span class="fusao__sigla">CPPEM</span>
+            </span>
+          </span>
+          <span class="fusao__costura" aria-hidden="true"></span>
+          <span class="fusao__faisca" aria-hidden="true"></span>
+          <span class="fusao__clarao" aria-hidden="true"></span>
+          <span class="fusao__onda" aria-hidden="true"></span>
+          <span class="fusao__estilhacos" id="estilhacos" aria-hidden="true"></span>
+        </div>
+        <div class="fusao__placa">
+          <b>Polícia Militar de Pernambuco</b>
+          <span>1.250 Soldados · 70 Oficiais</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="hero__sub anim d4">
+      A preparação completa para vestir a farda da <strong>PMPE</strong> — com plano,
+      cobrança e gente do seu lado, do primeiro dia à posse.
+    </p>
+
+    <div class="hero__cta anim d5">
+      <a class="btn btn--gold btn--lg shine" data-checkout href="https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01">
+        <span>Quero minha vaga</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn--ghost btn--lg" href="#recebe"><span>Ver tudo que inclui</span></a>
+    </div>
+
+    <span class="hero__nota anim d5">Acesso imediato · Mentoria ao vivo toda semana</span>
+
+    <div class="ficha anim d6">
+      <div class="ficha__item"><b>1.320</b><span>Vagas autorizadas</span></div>
+      <div class="ficha__item"><b>14K+</b><span>Aprovados pelo CPPEM</span></div>
+      <div class="ficha__item"><b>13</b><span>Frentes de preparação</span></div>
+      <div class="ficha__item"><b>AO VIVO</b><span>Mentoria semanal com o professor</span></div>
+    </div>
+  </div>
+
+  <div class="scroller" aria-hidden="true"><i></i></div>
+</section>
+
+<!-- ================= FAIXA CORRIDA ================= -->
+<div class="strip" aria-hidden="true">
+  <div class="strip__track">
+    <span>Mentoria ao vivo</span><span>Cronograma individualizado</span><span>Videoaulas e PDFs</span><span>Metas diárias</span><span>TAF</span><span>Psicotécnico</span><span>Plataforma com IA</span>
+    <span>Mentoria ao vivo</span><span>Cronograma individualizado</span><span>Videoaulas e PDFs</span><span>Metas diárias</span><span>TAF</span><span>Psicotécnico</span><span>Plataforma com IA</span>
+  </div>
+</div>
+
+<!-- ================= O CONCURSO (sobre a foto da tropa) ================= -->
+<section class="tropa" id="concurso" aria-labelledby="concurso-title">
+  <div class="tropa__foto" id="tropaFoto" aria-hidden="true"></div>
+  <div class="tropa__tom" aria-hidden="true"></div>
+  <div class="tropa__veil" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">O tamanho da janela</span>
+      <h2 class="section__title" id="concurso-title">1.320 vagas para vestir a <span class="gold">farda da PMPE</span></h2>
+      <p class="section__lead">
+        Concorrência alta, prova objetiva pesada e etapas eliminatórias que reprovam por falta de
+        preparo — não por falta de sonho. O preparatório cobre <strong>as quatro</strong>.
+      </p>
+    </div>
+
+    <div class="concurso">
+      <article class="vaga reveal--esq">
+        <div class="vaga__crest">
+          <img src="public/brasao-pmpe.webp" alt="" width="357" height="419" loading="lazy">
+        </div>
+        <h3>Polícia Militar</h3>
+        <span class="vaga__sigla">PMPE · Pernambuco</span>
+        <span class="vaga__num">1.320</span>
+        <span class="vaga__num-label">vagas autorizadas</span>
+        <div class="vaga__detalhe">
+          <b>1.250 Soldados · 70 Oficiais</b>
+          Remuneração de R$ 5.617,92 a R$ 12.937,33 na carreira, após o curso de formação.
+        </div>
+        <span class="vaga__nota">Edital previsto para 2026</span>
+      </article>
+
+      <div class="etapas reveal--dir">
+        <span class="etapas__titulo">As quatro etapas que eliminam</span>
+        <article class="etapa">
+          <span class="etapa__n">01</span>
+          <div>
+            <h3>Prova objetiva</h3>
+            <p>A etapa que mais elimina. É aqui que o plano de estudos certo separa quem passa de quem fica pelo caminho.</p>
+          </div>
+        </article>
+        <article class="etapa">
+          <span class="etapa__n">02</span>
+          <div>
+            <h3>Teste físico (TAF)</h3>
+            <p>Eliminatório. Começar a treinar depois do resultado da objetiva costuma ser tarde demais.</p>
+          </div>
+        </article>
+        <article class="etapa">
+          <span class="etapa__n">03</span>
+          <div>
+            <h3>Documental e investigação social</h3>
+            <p>Detalhes de documentação e conduta que reprovam candidato já aprovado na prova. Dá para se preparar desde já.</p>
+          </div>
+        </article>
+        <article class="etapa">
+          <span class="etapa__n">04</span>
+          <div>
+            <h3>Saúde e psicotécnico</h3>
+            <p>Etapas com critérios próprios, que quase ninguém estuda — e que também eliminam.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= O QUE VOCÊ RECEBE ================= -->
+<section class="section" id="recebe" aria-labelledby="recebe-title">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">O pacote completo</span>
+      <h2 class="section__title" id="recebe-title">O que você <span class="gold">recebe</span></h2>
+      <p class="section__lead">
+        Nada de módulo solto e boa sorte. O <strong>Preparatório Online PMPE</strong> é um sistema de
+        preparação: alguém montando o seu plano, alguém cobrando a execução e alguém do seu lado
+        quando a semana desandar.
+      </p>
+    </div>
+
+    <div class="entrega">
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Mentorias AO VIVO semanais</b>
+          <span>Toda semana, ao vivo com o Prof. Everton Mota — para ajustar rota, tirar dúvida e destravar o que empacou.</span>
+        </span>
+      </div>
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Cronograma individualizado</b>
+          <span>Montado sobre a sua rotina real de estudos, não sobre a de quem tem o dia inteiro livre.</span>
+        </span>
+      </div>
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Videoaulas e PDFs da PMPE</b>
+          <span>Todo o conteúdo do edital, em vídeo e em material escrito para acompanhar e revisar.</span>
+        </span>
+      </div>
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Metas diárias</b>
+          <span>Aulas, questões, simulados e revisões com o que fazer hoje já definido. Você abre e executa.</span>
+        </span>
+      </div>
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Gráficos de evolução</b>
+          <span>O seu desempenho em número e em curva: onde você está forte, onde está sangrando pontos.</span>
+        </span>
+      </div>
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Grupo exclusivo</b>
+          <span>Mentores, equipe pedagógica e outros alunos no mesmo lugar. Ninguém estuda sozinho aqui.</span>
+        </span>
+      </div>
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Mentoria para o TAF</b>
+          <span>A prova física com preparação própria — porque aprovado que roda no TAF não entra na farda.</span>
+        </span>
+      </div>
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Mentoria para o Psicotécnico</b>
+          <span>A fase que mais elimina candidato sem que ele saiba o porquê, tratada com a mesma seriedade das outras.</span>
+        </span>
+      </div>
+      <div class="item">
+        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
+        <span class="item__txt">
+          <b>Plataforma com IA treinada</b>
+          <span>Uma IA que conhece o seu material e o seu edital, disponível na hora em que a dúvida aparece.</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="extras">
+      <div class="extras__head">
+        <span class="eyebrow">Inclusos, sem custo à parte</span>
+        <h3>Os quatro <span class="gold">extras</span> do preparatório</h3>
+        <p>Entram junto no mesmo acesso.</p>
+      </div>
+      <div class="extras__grid">
+        <div class="extra">
+          <span class="extra__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.2L21 9l-5 4.3L17.5 20 12 16.6 6.5 20 8 13.3 3 9l6.6-.8z"/></svg>
+          </span>
+          <b>Método MDT</b>
+          <span class="extra__txt">Mentalidade, Disciplina e Técnica — o método do Prof. Everton.</span>
+        </div>
+        <div class="extra">
+          <span class="extra__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 4h9a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H4z"/><path d="M20 4h-1a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H20z"/></svg>
+          </span>
+          <b>Apostila Digital</b>
+          <span class="extra__txt">Todo o conteúdo do edital da PMPE em material próprio.</span>
+        </div>
+        <div class="extra">
+          <span class="extra__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6z"/><path d="M9.3 11.8l1.9 1.9 3.6-3.6"/></svg>
+          </span>
+          <b>Vade Mecum Digital</b>
+          <span class="extra__txt">A legislação da PMPE que cai, reunida e organizada.</span>
+        </div>
+        <div class="extra">
+          <span class="extra__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8.5 10h7M8.5 14h7M8.5 18h4"/></svg>
+          </span>
+          <b>Caderno de Questões</b>
+          <span class="extra__txt">Questões da banca para treinar o que você estudou.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="center" style="margin-top:44px">
+      <a class="btn btn--gold btn--lg shine" data-checkout href="https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01">
+        <span>Quero tudo isso</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     A PLATAFORMA — prints reais, numa moldura de navegador
+     ---------------------------------------------------------
+     As abas são <button role="tab">; a tela é um painel só, e o que troca é
+     qual <img> está visível. Os textos de cada aba ficam no próprio botão
+     (lidos no desktop) e o script copia o da aba ativa para a legenda que
+     aparece abaixo do print no celular.
+     ========================================================= -->
+<section class="section section--alt" id="plataforma" aria-labelledby="plat-title">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Por dentro da plataforma</span>
+      <h2 class="section__title" id="plat-title">A sua preparação inteira <span class="gold">num lugar só</span></h2>
+      <p class="section__lead">
+        Cronograma que se refaz sozinho, arsenal de aulas e simulados, resumos gerados por IA e o
+        seu rendimento matéria por matéria — tudo no mesmo painel, do celular ou do computador.
+      </p>
+    </div>
+
+    <div class="plat" data-plat>
+      <div class="plat__abas" role="tablist" aria-label="Telas da plataforma">
+        <button type="button" class="plat__aba is-on" role="tab" aria-selected="true" aria-controls="plat-tela" id="plat-aba-0">
+          <span class="plat__num">01</span>
+          <span class="plat__txt">
+            <b>Missões semanais</b>
+            <span>A semana inteira planejada. Marque o que fez e o sistema redistribui revisões, questões e simulados sozinho.</span>
+          </span>
+          <i class="plat__barra" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="plat__aba" role="tab" aria-selected="false" aria-controls="plat-tela" id="plat-aba-1" tabindex="-1">
+          <span class="plat__num">02</span>
+          <span class="plat__txt">
+            <b>Arsenal de fogo</b>
+            <span>Aulas, PDFs e simulados organizados por matéria, para usar a qualquer hora, fora do cronograma.</span>
+          </span>
+          <i class="plat__barra" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="plat__aba" role="tab" aria-selected="false" aria-controls="plat-tela" id="plat-aba-2" tabindex="-1">
+          <span class="plat__num">03</span>
+          <span class="plat__txt">
+            <b>Resumos com IA</b>
+            <span>Cadernos por matéria e resumos gerados por IA, com os pontos de atenção da prova destacados.</span>
+          </span>
+          <i class="plat__barra" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="plat__aba" role="tab" aria-selected="false" aria-controls="plat-tela" id="plat-aba-3" tabindex="-1">
+          <span class="plat__num">04</span>
+          <span class="plat__txt">
+            <b>Briefing da missão</b>
+            <span>O primeiro módulo: como estudar, como usar cada ferramenta e o método que guia a preparação.</span>
+          </span>
+          <i class="plat__barra" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="plat__tela" id="plat-tela" role="tabpanel" aria-labelledby="plat-aba-0">
+        <div class="plat__topo" aria-hidden="true"><i></i><i></i><i></i><span>Plataforma CPPEM</span></div>
+        <div class="plat__vista">
+          <img class="is-on" src="public/plataforma/missoes.webp" width="1918" height="741" loading="lazy" decoding="async"
+               alt="Tela Missões Semanais: cronograma da semana com aulas, questões e revisões por dia">
+          <img src="public/plataforma/arsenal.webp" width="1918" height="698" loading="lazy" decoding="async"
+               alt="Tela Arsenal de Fogo: biblioteca de matérias com aulas, PDFs e simulados">
+          <img src="public/plataforma/resumo-ia.webp" width="1918" height="787" loading="lazy" decoding="async"
+               alt="Tela Resumos e Mapas Mentais: resumo gerado por IA com pontos de atenção da prova">
+          <img src="public/plataforma/briefing.webp" width="1918" height="693" loading="lazy" decoding="async"
+               alt="Tela Briefing da Missão: objetivos do primeiro módulo e funcionalidades da plataforma">
+          <i class="plat__scan" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <p class="plat__legenda" aria-hidden="true"></p>
+    </div>
+
+    <div class="plat__rodape" aria-label="Outras ferramentas da plataforma">
+      <span>Missões diárias</span><span>Plano de combate</span><span>Mapas mentais</span>
+      <span>Rendimento operacional</span><span>TAF / Físico</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= O PROFESSOR ================= -->
+<section class="section" id="professor" aria-labelledby="prof-title">
+  <div class="container">
+    <div class="duo">
+      <div class="duo__foto reveal--esq">
+        <img src="public/everton-mota.webp" alt="Prof. Everton Mota em equipamento operacional" width="1000" height="1250" loading="lazy" decoding="async">
+        <div class="duo__placa">
+          <b>Everton Mota</b>
+          <span>Mentor · CPPEM</span>
+        </div>
+      </div>
+
+      <div class="duo__texto reveal--dir">
+        <span class="eyebrow">Quem conduz</span>
+        <h2 class="section__title section__title--left" id="prof-title">Quem te orienta aqui <span class="gold">já passou</span></h2>
+        <p>
+          Aprovado em <strong>15 concursos públicos</strong>, o Prof. Everton Mota não ensina pelo livro.
+          Ensina pela estrada que ele mesmo caminhou. Há mais de 7 anos forma candidatos para carreiras
+          policiais no Nordeste, com mais de 14 mil aprovados.
+        </p>
+        <p>
+          A plataforma monta o seu cronograma, mede a sua evolução e responde a dúvida das onze da noite.
+          O que ela não faz é olhar para o seu mês e dizer o que muda no próximo. Isso é a
+          <strong>mentoria ao vivo, toda semana</strong>, com os mentores e a equipe pedagógica no grupo
+          o resto do tempo.
+        </p>
+        <p>
+          É de onde sai o <strong>Método MDT</strong>: Mentalidade, Disciplina e Técnica. A ordem importa.
+          Técnica sem disciplina vira plano bonito que ninguém executa, e disciplina sem mentalidade dura
+          três semanas.
+        </p>
+
+        <div class="stats">
+          <div class="stat"><b>15</b><span>Concursos aprovados</span></div>
+          <div class="stat"><b>14K+</b><span>Alunos aprovados</span></div>
+          <div class="stat"><b>7+</b><span>Anos formando policiais</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     APROVADOS — duas fileiras correndo em sentidos opostos
+     ---------------------------------------------------------
+     Cada fileira traz as fotos DUAS vezes: a animação anda -50% e a cópia
+     cai exatamente onde o original começou, então o loop não tem emenda. As
+     cópias são aria-hidden e alt="" — um leitor de tela ouviria cada aluno
+     duas vezes.
+     ========================================================= -->
+<section class="section section--alt" id="aprovados" aria-labelledby="aprov-title">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Aprovados CPPEM</span>
+      <h2 class="section__title" id="aprov-title">Eles estavam onde você está. <span class="gold">Hoje vestem a farda</span></h2>
+      <p class="section__lead">
+        Alguns dos alunos que passaram pela preparação do CPPEM, ao lado do Prof. Everton Mota.
+        São mais de <strong>14 mil aprovados</strong> — e a próxima foto pode ser a sua.
+      </p>
+    </div>
+  </div>
+
+  <div class="galeria" role="group" aria-label="Fotos de alunos aprovados com o Prof. Everton Mota">
+    <div class="fila">
+      <div class="fila__track">
+        <figure class="aluno"><img src="public/alunos/aluno-01.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-02.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-03.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-04.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluna aprovada com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-05.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-06.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-07.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-01.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-02.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-03.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-04.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-05.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-06.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-07.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+      </div>
+    </div>
+    <div class="fila fila--volta">
+      <div class="fila__track">
+        <figure class="aluno"><img src="public/alunos/aluno-08.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-09.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-10.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-11.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-12.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-13.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno"><img src="public/alunos/aluno-14.webp" width="480" height="600" loading="lazy" decoding="async" alt="Aluno aprovado com o Prof. Everton Mota"></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-08.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-09.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-10.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-11.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-12.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-13.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+        <figure class="aluno" aria-hidden="true"><img src="public/alunos/aluno-14.webp" width="480" height="600" loading="lazy" decoding="async" alt=""></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="container center aprovados__rodape">
+    <a class="btn btn--gold btn--lg shine" data-checkout href="https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01">
+      <span>Quero ser o próximo</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ================= COMPARATIVO ================= -->
+<section class="section" id="comparativo" aria-labelledby="comp-title">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">A diferença na prática</span>
+      <h2 class="section__title" id="comp-title">No preparatório <span class="gold">vs.</span> por conta própria</h2>
+      <p class="section__lead">
+        A maior parte de quem roda numa prova não rodou por falta de conteúdo.
+        Rodou por falta de plano, de cobrança e de preparo para as fases que vêm depois.
+      </p>
+    </div>
+
+    <div class="vs-wrap">
+      <table class="vs">
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only">Situação</span></th>
+            <th scope="col" class="vs__cab vs__cab--sim">No preparatório</th>
+            <th scope="col" class="vs__cab">Por conta própria</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">O que estudar hoje</th>
+            <td class="vs__sim" data-col="No preparatório"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Meta do dia já definida</span></td>
+            <td class="vs__nao" data-col="Por conta própria"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>Você decide toda manhã</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Cronograma</th>
+            <td class="vs__sim" data-col="No preparatório"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Individualizado, refeito quando a rotina muda</span></td>
+            <td class="vs__nao" data-col="Por conta própria"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>Planilha genérica da internet</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Correção de rota</th>
+            <td class="vs__sim" data-col="No preparatório"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Mentoria ao vivo toda semana</span></td>
+            <td class="vs__nao" data-col="Por conta própria"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>Só no resultado da prova</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Dúvida às 23h</th>
+            <td class="vs__sim" data-col="No preparatório"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>IA treinada no material + grupo de mentores</span></td>
+            <td class="vs__nao" data-col="Por conta própria"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>Fórum, vídeo aleatório, sorte</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Evolução</th>
+            <td class="vs__sim" data-col="No preparatório"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Gráficos por matéria e por assunto</span></td>
+            <td class="vs__nao" data-col="Por conta própria"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>Sensação de que está indo bem</span></td>
+          </tr>
+          <tr>
+            <th scope="row">TAF e psicotécnico</th>
+            <td class="vs__sim" data-col="No preparatório"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Mentoria própria para cada fase</span></td>
+            <td class="vs__nao" data-col="Por conta própria"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>Descoberto na véspera</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Material</th>
+            <td class="vs__sim" data-col="No preparatório"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Apostila, Vade Mecum e caderno inclusos</span></td>
+            <td class="vs__nao" data-col="Por conta própria"><span class="vs__marca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>Comprados soltos, um a um</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     O INVESTIMENTO
+     ---------------------------------------------------------
+     ⚠️ Os valores abaixo são o FALLBACK para quem está sem JS. Quem manda é
+     o CONFIG do script.js, que reescreve todo [data-slot] no carregamento:
+     trocar um valor só aqui não muda nada na tela.
+     ========================================================= -->
+<section class="section investimento" id="preco" aria-labelledby="preco-title">
+  <div class="investimento__brasas" id="investBrasas" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">O investimento</span>
+      <h2 class="section__title" id="preco-title">Garanta a sua vaga no <span class="gold">preparatório</span></h2>
+    </div>
+
+    <div class="oferta">
+      <div class="oferta__resumo reveal--esq">
+        <span class="oferta__cab">Tudo que está incluso</span>
+        <ul class="oferta__lista">
+          <li><b>Mentorias ao vivo semanais</b> com o Prof. Everton Mota</li>
+          <li><b>Cronograma individualizado</b></li>
+          <li><b>Videoaulas e PDFs</b> da PMPE</li>
+          <li><b>Metas diárias</b> já definidas</li>
+          <li><b>Gráficos de evolução</b></li>
+          <li><b>Grupo exclusivo</b> com mentores</li>
+          <li><b>Mentoria para o TAF</b></li>
+          <li><b>Mentoria para o Psicotécnico</b></li>
+          <li><b>Plataforma com IA</b> treinada</li>
+          <li><b>Método MDT</b></li>
+          <li><b>Apostila Digital</b> da PMPE</li>
+          <li><b>Vade Mecum Digital</b></li>
+          <li><b>Caderno de Questões</b></li>
+          <li><b>Acesso imediato</b> após a confirmação</li>
+        </ul>
+
+        <div class="garantia">
+          <span class="garantia__selo" aria-hidden="true"><b>7<small>DIAS</small></b></span>
+          <span class="garantia__txt">
+            <b>Garantia de 7 dias</b>
+            <span>Se em até 7 dias você decidir que o curso não é para você, pede o cancelamento e
+            recebe o valor de volta — é o direito de arrependimento do art. 49 do Código de Defesa do Consumidor.</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="preco__moldura reveal--dir">
+        <div class="preco__caixa">
+          <div class="preco__topo">
+            <span class="preco__selo" aria-hidden="true"><img src="public/brasao-pmpe.webp" alt="" width="357" height="419" loading="lazy"></span>
+            <span class="preco__cab">Preparatório Online PMPE</span>
+          </div>
+
+          <!-- A PARCELA é o número grande; o total à vista vem logo abaixo, na
+               caixa própria. É a mesma tela do checkout: "R$ 437,00 Total ·
+               Até 12 x R$ 44,68".
+
+               O "de/por" e a economia são [data-se]: sem valor no CONFIG, eles
+               ficam hidden. Hoje não existe valor cheio, e um inventado seria
+               número falso na cara do comprador. -->
+          <div class="preco__destaque">
+            <span class="preco__de" data-se="de" hidden>de <s data-slot="preco-de"></s> por</span>
+            <span class="preco__parcela">
+              <i data-slot="parcelas">12x</i>
+              <b class="luz" data-slot="preco-parcela">R$ 44,68</b>
+            </span>
+            <span class="preco__vista">até <span data-slot="parcelas">12x</span> <span data-slot="nota">no cartão</span></span>
+          </div>
+
+          <div class="economia shine shine--slow">
+            <span class="economia__cab">Ou à vista</span>
+            <b class="economia__val" data-slot="preco-vista">R$ 437,00</b>
+            <span class="economia__nota" data-se="economia" hidden>Você economiza <b data-slot="economia"></b></span>
+          </div>
+
+          <div class="preco__cta">
+            <a class="btn btn--gold btn--lg btn--block shine" data-checkout href="https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01">
+              <span data-slot="cta-preco">Garantir minha vaga por 12x R$ 44,68</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+
+          <div class="selos">
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Compra segura</span>
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Acesso imediato</span>
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6z"/><path d="M9.3 11.8l1.9 1.9 3.6-3.6"/></svg>7 dias de garantia</span>
+          </div>
+          <span class="preco__nota">
+            Checkout oficial CPPEM. As formas de pagamento aparecem na tela do checkout.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section section--alt" id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Antes de decidir</span>
+      <h2 class="section__title" id="faq-title">Dúvidas <span class="gold">frequentes</span></h2>
+    </div>
+
+    <div class="faq">
+      <details class="faq__item">
+        <summary>O edital ainda não saiu. Vale começar agora?</summary>
+        <p>
+          As <strong>1.320 vagas estão autorizadas</strong> e o edital está previsto para 2026. Quem começa
+          antes dele chega na prova com o conteúdo visto e revisado, e com o TAF treinado; quem espera o
+          edital começa com o relógio já correndo contra.
+        </p>
+      </details>
+      <details class="faq__item">
+        <summary>As mentorias ao vivo são com o professor mesmo?</summary>
+        <p>
+          Sim. São <strong>semanais e ao vivo com o Prof. Everton Mota</strong>. Além delas, você tem o
+          grupo exclusivo com mentores e a equipe pedagógica ao longo do mês.
+        </p>
+      </details>
+      <details class="faq__item">
+        <summary>Trabalho o dia inteiro. Dá para acompanhar?</summary>
+        <p>
+          É exatamente para isso que o cronograma é <strong>individualizado</strong>: ele é montado sobre as
+          horas que você tem de verdade. Se a sua rotina mudar no meio do caminho, a mentoria refaz o plano.
+        </p>
+      </details>
+      <details class="faq__item">
+        <summary>O TAF e o psicotécnico entram no mesmo pacote?</summary>
+        <p>
+          Entram, sem custo à parte. São <strong>duas mentorias próprias</strong>, porque as duas fases
+          eliminam candidato aprovado na objetiva — e ninguém entra na farda parando na metade.
+        </p>
+      </details>
+      <details class="faq__item">
+        <summary>Preciso comprar a apostila e o Vade Mecum separados?</summary>
+        <p>
+          Não. <strong>Apostila Digital, Vade Mecum Digital e Caderno de Questões</strong> da PMPE são
+          extras inclusos, junto com o Método MDT.
+        </p>
+      </details>
+      <details class="faq__item">
+        <summary>Como funciona a plataforma?</summary>
+        <p>
+          Você entra e encontra a <strong>missão do dia</strong> já montada: aulas, questões e revisões. Ao
+          marcar o que fez, o cronograma se reorganiza sozinho. Fora dele, o Arsenal reúne aulas, PDFs e
+          simulados por matéria, e os resumos com IA destacam o que costuma cair.
+        </p>
+      </details>
+      <details class="faq__item">
+        <summary>E se eu me arrepender?</summary>
+        <p>
+          Você tem <strong>7 dias</strong> a partir da compra para desistir e receber o valor de volta. É o
+          direito de arrependimento garantido pelo art. 49 do Código de Defesa do Consumidor para compras
+          feitas pela internet.
+        </p>
+      </details>
+      <details class="faq__item">
+        <summary>Como funciona o pagamento e o acesso?</summary>
+        <p>
+          A compra é feita no <strong>checkout oficial do CPPEM</strong>: <strong data-slot="preco-vista">R$ 437,00</strong>
+          à vista ou em até <span data-slot="parcelas">12x</span> de <span data-slot="preco-parcela">R$ 44,68</span>
+          no cartão. O acesso à plataforma é liberado logo em seguida.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="final" aria-labelledby="final-title">
+  <div class="final__marca" aria-hidden="true"></div>
+  <div class="container final__inner">
+    <!-- sem .fusao--hero: este medalhão nasce montado, porque quem chega aqui
+         já viu a colisão lá em cima. Decorativo — o brasão já foi anunciado. -->
+    <div class="fusoes" aria-hidden="true">
+      <div class="fusao">
+        <span class="fusao__aro"></span>
+        <span class="fusao__core">
+          <span class="fusao__lado fusao__lado--a">
+            <img src="public/brasao-pmpe.webp" alt="" width="357" height="419" loading="lazy">
+            <span class="fusao__sigla">PMPE</span>
+          </span>
+          <span class="fusao__lado fusao__lado--b">
+            <img src="public/emblema-leao.webp" alt="" width="400" height="465" loading="lazy">
+            <span class="fusao__sigla">CPPEM</span>
+          </span>
+        </span>
+        <span class="fusao__costura"></span>
+        <span class="fusao__faisca"></span>
+      </div>
+    </div>
+
+    <h2 id="final-title">São <span class="gold">1.320</span> vagas.<br>Uma delas tem o seu nome.</h2>
+    <p>
+      O <strong>Preparatório Online PMPE</strong> começa no dia em que você entra — com plano, cobrança e gente
+      do seu lado até a aprovação.
+    </p>
+
+    <a class="btn btn--gold btn--lg shine" data-checkout href="https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01">
+      <span data-slot="cta-preco">Garantir minha vaga por 12x R$ 44,68</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <span class="final__note">
+      <span data-slot="parcelas">12x</span> <span data-slot="preco-parcela">R$ 44,68</span> <span data-slot="nota">no cartão</span>
+      ou <span data-slot="preco-vista">R$ 437,00</span> à vista · 7 dias de garantia
+    </span>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="footer__leao">
+        <img src="public/emblema-leao.webp" alt="CPPEM Concursos Públicos" width="400" height="465" loading="lazy">
+      </span>
+      <p>&ldquo;Seu sonho é o nosso principal objetivo.&rdquo;</p>
+      <div class="footer__social">
+        <a href="https://wa.me/558173105354" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/cppemconcursos/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9s.7.8.9 1.4c.1.4.3 1 .4 2.2 0 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4s-.8.7-1.4.9c-.4.1-1 .3-2.2.4-1.3 0-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4a3.8 3.8 0 0 1-1.4-.9 3.8 3.8 0 0 1-.9-1.4c-.1-.4-.3-1-.4-2.2 0-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4s.8-.7 1.4-.9c.4-.1 1-.3 2.2-.4 1.3 0 1.7-.1 4.9-.1zM12 0C8.7 0 8.3 0 7 .1 5.7.1 4.8.3 4.1.6c-.8.3-1.4.7-2 1.4-.7.6-1.1 1.2-1.4 2C.3 4.7.1 5.6.1 6.9 0 8.2 0 8.6 0 12s0 3.8.1 5.1c0 1.3.2 2.2.5 2.9.3.8.7 1.4 1.4 2 .6.7 1.2 1.1 2 1.4.7.3 1.6.5 2.9.5 1.3.1 1.7.1 5.1.1s3.8 0 5.1-.1c1.3 0 2.2-.2 2.9-.5.8-.3 1.4-.7 2-1.4.7-.6 1.1-1.2 1.4-2 .3-.7.5-1.6.5-2.9.1-1.3.1-1.7.1-5.1s0-3.8-.1-5.1c0-1.3-.2-2.2-.5-2.9-.3-.8-.7-1.4-1.4-2-.6-.7-1.2-1.1-2-1.4-.7-.3-1.6-.5-2.9-.5C15.8 0 15.4 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-10.4a1.4 1.4 0 1 1-2.9 0 1.4 1.4 0 0 1 2.9 0z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@cppemconcursos" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3.3v13.2a2.4 2.4 0 1 1-2.4-2.4c.2 0 .5 0 .7.1v-3.3a5.7 5.7 0 1 0 5 5.7V9.7a7.6 7.6 0 0 0 4.4 1.4V7.8a4.3 4.3 0 0 1-3.4-2z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@cppemconcursos" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 3.9 12 3.9 12 3.9s-7.5 0-9.4.5A3 3 0 0 0 .5 6.5C0 8.4 0 12 0 12s0 3.6.5 5.5a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.5.5-5.5s0-3.6-.5-5.5zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/people/Cppem-Cursos-preparat%C3%B3rios/61550943416378/" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.6 4.5-4.6 1.3 0 2.6.2 2.6.2v2.9h-1.5c-1.5 0-1.9.9-1.9 1.8V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="footer__col" aria-label="Nesta página">
+      <h4>Nesta página</h4>
+      <a href="#concurso">O concurso</a>
+      <a href="#recebe">O que você recebe</a>
+      <a href="#plataforma">Plataforma</a>
+      <a href="#preco">Investimento</a>
+    </nav>
+
+    <nav class="footer__col" aria-label="Cursos">
+      <h4>Cursos</h4>
+      <a href="https://cppem.com.br/turmas" target="_blank" rel="noopener">Turmas</a>
+      <a href="https://unicive.cppem.com.br" target="_blank" rel="noopener">Faculdade EAD</a>
+      <a href="https://loja.cppem.com.br" target="_blank" rel="noopener">Loja</a>
+    </nav>
+
+    <nav class="footer__col" aria-label="Institucional">
+      <h4>Institucional</h4>
+      <a href="https://cppem.com.br/quem-somos" target="_blank" rel="noopener">Quem Somos</a>
+      <a href="https://cppem.com.br/politica-de-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>
+      <a href="https://cppem.notion.site/vagas" target="_blank" rel="noopener">Trabalhe Conosco</a>
+    </nav>
+  </div>
+
+  <div class="container footer__bar">
+    <span>© <span id="year">2026</span> <strong>Cppem Colégio e Cursos LTDA.</strong> · Caruaru, Pernambuco</span>
+    <span class="footer__cnpj">CNPJ 57.347.872/0001-48</span>
+  </div>
+</footer>
+
+</div><!-- /.site -->
+
+<!-- WhatsApp flutuante -->
+<a class="float" id="whats" href="https://wa.me/558173105354" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<!-- Barra fixa (mobile) -->
+<div class="dock" id="dock">
+  <div class="dock__info">
+    <b>Preparatório Online PMPE</b>
+    <span data-slot="dock-sub">12x R$ 44,68 ou R$ 437,00 à vista</span>
+  </div>
+  <a class="btn btn--gold" data-checkout href="https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01"><span>Garantir vaga</span></a>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
