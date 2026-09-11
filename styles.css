@@ -275,147 +275,162 @@ strong, b { font-weight: 700; color: var(--text); }
 }
 
 /* =========================================================
-   A ABERTURA
+   A ENTRADA — a colisão acontece NA PRÓPRIA HERO
    ---------------------------------------------------------
-   O brasão da PMPE entra pela esquerda, o leão do CPPEM pela
-   direita — os mesmos lados que ocupam no medalhão da hero —
-   e os dois batem no meio da tela. Da batida saem o
-   clarão, duas ondas hexagonais, o risco de luz, os estilhaços
-   e o tranco — e é dela que nascem a placa hexagonal atrás do
-   par, a costura de ouro entre os dois e o nome do curso.
+   Não existe tela de abertura por cima da página: a cena é a
+   hero. O fundo, o véu, a grade e o medalhão do primeiro
+   quadro são exatamente os que ficam no fim — nada troca de
+   lugar quando a cena acaba, e por isso pular no meio não
+   custa qualidade nenhuma.
 
-   A leitura é literal: quem prepara e a corporação, fundidos.
-   É a mesma peça que a hero mostra montada logo em seguida
-   (o medalhão partido PMPE | CPPEM), então a abertura não é
-   uma cena solta: é a origem do medalhão.
+   No primeiro quadro a hero mostra só o fundo e o medalhão
+   VAZIO (aro de ouro, núcleo escuro). O brasão da PMPE entra
+   pela esquerda e o leão do CPPEM pela direita — os mesmos
+   lados que ocupam dentro do medalhão — e batem no centro
+   dele. Da batida saem clarão, ondas, risco, estilhaços e o
+   tranco; então os dois encolhem até a posição e o tamanho
+   exatos das duas metades do medalhão e apagam ao chegar
+   (passagem de bastão), a costura acende e o nome é
+   carimbado. Só depois entra o resto da dobra.
 
    Toca UMA vez por sessão (o <head> decide, antes do primeiro
-   quadro), some sozinha em ~2,6s e qualquer toque pula. Quem
-   pediu menos movimento nunca a vê.
+   quadro). Quem pediu menos movimento nunca a vê, e quem
+   volta na mesma sessão recebe a versão curta — a colisão
+   dentro do medalhão (ver .sem-abertura).
 
-   A marcação de tempo inteira mora aqui, no ancestral comum de
-   tudo que participa. --vem + --voo TEM que fechar em
-   --impacto: se não fechar, o clarão acende antes de os dois
-   se encostarem.
+   --vem + --voo TEM que fechar em --impacto: se não fechar, o
+   clarão acende antes de os dois se encostarem.
    ========================================================= */
-.abertura {
-  position: fixed; inset: 0; z-index: 400; display: none; overflow: hidden;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-  background:
-    radial-gradient(120% 90% at 50% 108%, rgba(196,112,63,.18), transparent 62%),
-    radial-gradient(90% 70% at 50% -10%, rgba(175,146,86,.10), transparent 60%),
-    #08080A;
-
-  --cx: min(clamp(104px, 19vw, 214px), 23vh);  /* lado da caixa de cada emblema */
-  --cy: 40%;                                     /* altura do ponto de contato   */
-  --vem:     .28s;
-  --voo:     .78s;
-  --impacto: 1.06s;   /* --vem + --voo */
-
-  transition: opacity .7s var(--ease), transform .7s var(--ease), visibility .7s;
-  /* `backwards`, e não `both`: com `both` o transform:none do último quadro
-     ficaria fixado e a saída (.is-gone, scale) nunca sairia do lugar. */
+html.is-abertura .hero {
+  --vem:     .3s;
+  --voo:     .82s;
+  --impacto: 1.12s;   /* --vem + --voo */
+  /* o tranco é da TELA: a hero inteira leva o baque, fundo e tudo.
+     `backwards`, e não `both`: com `both` o transform:none do último quadro
+     ficaria fixado e o parallax do fundo não sairia mais do lugar. */
   animation: tranco .42s var(--ease) var(--impacto) backwards;
 }
-html.is-abertura .abertura, .abertura.is-gone { display: block; }
-/* sai por cima, como quem levanta uma cortina */
-.abertura.is-gone { opacity: 0; transform: scale(1.12); visibility: hidden; pointer-events: none; }
-/* O nome some ANTES do resto. A hero tem o mesmo "PMPE" logo acima, e
-   no fade de .7s os dois apareciam juntos, um fantasma do outro. */
-.abertura__nome { transition: opacity .22s var(--ease); }
-.abertura.is-gone .abertura__nome { opacity: 0; }
+/* ─── as três classes, e por que são três ──────────────────
+   · is-abertura  a coreografia desta versão. ENTRA no <head> e NÃO SAI mais:
+     ela é só a definição das animações. Tirá-la no fim devolvia cada peça
+     para o `rise` da cascata normal — e trocar a animação de um elemento no
+     meio do caminho faz o navegador tratá-la como uma animação NOVA, que
+     recomeça do zero. O título e o medalhão piscavam e re-entravam depois de
+     a cena já ter terminado.
+   · is-entrando  o que vale só ENQUANTO a cena roda: rolagem travada, dock e
+     WhatsApp fora, botão Pular e linha do tempo à mostra. É esta que sai.
+   · is-pulado    pulou no meio: tudo assume o estado final no mesmo quadro. */
+html.is-entrando, html.is-entrando body { overflow: hidden; }
+html.is-entrando .dock, html.is-entrando .float { display: none; }
 
-.abertura__bg {
-  position: absolute; inset: 0; pointer-events: none;
-  background: url("public/bgatirador.webp") center 28% / cover no-repeat;
-  opacity: .14; filter: grayscale(.7) contrast(1.05) brightness(.72);
-}
-.abertura__veil {
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(110% 85% at 50% 42%, rgba(8,8,10,.25), rgba(8,8,10,.88) 62%, #08080A 100%);
-}
-.abertura__grid {
-  position: absolute; inset: 0; pointer-events: none; opacity: .6;
-  background-image:
-    linear-gradient(rgba(175,146,86,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(175,146,86,.06) 1px, transparent 1px);
-  background-size: 74px 74px;
-  mask-image: radial-gradient(ellipse at 50% 42%, #000 6%, transparent 66%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 42%, #000 6%, transparent 66%);
-}
-.abertura__scan {
-  position: absolute; inset: 0; pointer-events: none; opacity: .18;
-  background: repeating-linear-gradient(180deg, rgba(255,255,255,.05) 0 1px, transparent 1px 4px);
-}
-.abertura__brasas { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-
-/* ─── a placa hexagonal que nasce da batida ─────────────────
-   Fica ATRÁS do par (z 4 contra 5 do choque). O aro é o mesmo dos
-   medalhões: recorte parado no pai, luz cônica girando num filho maior —
-   girar o próprio elemento recortado giraria o hexágono junto. */
-.abertura__placa {
-  position: absolute; left: 50%; top: var(--cy); z-index: 4; display: block;
-  width: calc(var(--cx) * 2.15); aspect-ratio: 1;
-  clip-path: var(--hexr); overflow: hidden; opacity: 0;
-  transform: translate(-50%, -50%) scale(.4);
-  animation: placa-abre .8s var(--freada) var(--impacto) forwards;
-}
-.abertura__placa::before {
-  content: ''; position: absolute; inset: -40%;
-  background: conic-gradient(from 0deg,
-    var(--gold-deep), var(--gold-light) 18%, var(--gold-pale) 26%, var(--gold) 42%,
-    var(--gold-deep) 58%, var(--gold-light) 76%, var(--gold-deep) 100%);
-  animation: aro-gira 9s linear infinite;
-}
-.abertura__placa i {
-  position: absolute; inset: 3px; display: block; clip-path: var(--hexr);
-  background: radial-gradient(circle at 50% 34%, #1c1c22, #0a0a0d 74%);
-}
-@keyframes placa-abre {
-  0%   { opacity: 0; transform: translate(-50%, -50%) scale(.4); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
-/* o halo quente atrás da placa */
-.abertura__halo {
-  position: absolute; left: 50%; top: var(--cy); z-index: 3; display: block;
-  width: calc(var(--cx) * 4); aspect-ratio: 1; border-radius: 50%;
-  transform: translate(-50%, -50%); opacity: 0;
-  background: radial-gradient(circle, var(--halo), transparent 64%);
-  animation: entra-sobe .9s var(--ease) var(--impacto) forwards, halo-respira 3.6s var(--ease) calc(var(--impacto) + .9s) infinite;
+html.is-pulado .anim,
+html.is-pulado .fusao__placa,
+html.is-pulado .fusao--hero,
+html.is-pulado .fusao--hero .fusao__lado,
+html.is-pulado .fusao--hero .fusao__costura,
+html.is-pulado .header,
+html.is-pulado .scroller,
+html.is-pulado .hero { animation: none !important; opacity: 1 !important; }
+/* a faísca é a única que tem pulso PERPÉTUO: congelar a animação dela
+   deixaria o medalhão com um brilho morto no meio */
+html.is-pulado .fusao--hero .fusao__faisca {
+  opacity: .9 !important; animation: faisca 3.2s var(--ease) infinite !important;
 }
 
-.choque { position: absolute; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
-/* A caixa é quadrada e o desenho dentro é `contain`, então cada emblema
-   ocupa uma FATIA diferente da própria caixa: 400x465 no leão, 357x419 no
-   brasão. O --enc de cada lado é metade da largura RENDERIZADA dele (mais
-   um fio de folga para o clarão). Como sai de --cx, a distância acompanha o
-   tamanho em qualquer tela. */
+/* ─── a cascata, ancorada no impacto ───────────────────────
+   São os mesmos .anim da hero, com os atrasos recontados a partir da batida:
+   primeiro o nome carimbado, depois etiqueta, placa, texto, botões e
+   números. Nenhum elemento muda de posição — muda só quando aparece, e é
+   isso que faz a cena e a página serem a mesma coisa. */
+html.is-abertura .anim       { animation-delay: calc(var(--impacto) + .34s); }
+html.is-abertura .tag        { animation-delay: calc(var(--impacto) + .30s); }
+html.is-abertura .hero__sub  { animation-delay: calc(var(--impacto) + .46s); }
+html.is-abertura .hero__cta  { animation-delay: calc(var(--impacto) + .58s); }
+html.is-abertura .hero__nota { animation-delay: calc(var(--impacto) + .66s); }
+html.is-abertura .ficha      { animation-delay: calc(var(--impacto) + .76s); }
+/* o medalhão é o palco: está lá desde o primeiro quadro, e vazio */
+html.is-abertura .fusoes.anim  { opacity: 1; animation: none; }
+html.is-abertura .fusao__placa { opacity: 0; animation: entra-sobe .5s var(--ease) calc(var(--impacto) + .42s) both; }
+html.is-abertura .scroller     { animation: entra-sobe .6s var(--ease) calc(var(--impacto) + .9s) both; }
+/* O HEADER fica de pé desde o primeiro quadro, e é de propósito: quem já
+   decidiu não deve esperar a cena acabar para achar o "Garantir vaga". Ele
+   também não teria como entrar na cascata sem duplicar a marcação de tempo —
+   --impacto mora na .hero, e num calc() fora dela a variável não existe (a
+   declaração inteira seria descartada em silêncio). */
+
+/* o nome é carimbado pela batida, no lugar do `rise` da cascata */
+html.is-abertura .hero__title.anim {
+  animation: carimbo .64s cubic-bezier(.2,.8,.25,1) calc(var(--impacto) + .06s) both;
+}
+html.is-abertura .hero__title .luz { animation-delay: calc(var(--impacto) + .8s); }
+
+/* ─── as metades do medalhão ───────────────────────────────
+   Acendem embaixo dos emblemas que voaram, no mesmo lugar e no mesmo
+   tamanho: o que se vê é um desenho só se assentando no medalhão. */
+html.is-abertura .fusao--hero .fusao__lado {
+  opacity: 0; animation: entra-metade .45s var(--ease) calc(var(--impacto) + .22s) forwards;
+}
+@keyframes entra-metade { from { opacity: 0; } to { opacity: 1; } }
+html.is-abertura .fusao--hero .fusao__costura {
+  opacity: 0; animation: costura-acende .55s var(--ease) calc(var(--impacto) + .12s) forwards;
+}
+html.is-abertura .fusao--hero .fusao__faisca {
+  opacity: 0;
+  animation:
+    faisca-acende .25s var(--ease) calc(var(--impacto) + .12s) forwards,
+    faisca 3.2s var(--ease) calc(var(--impacto) + .37s) infinite;
+}
+/* o medalhão recua no golpe, e a tela treme junto (tranco, acima) */
+html.is-abertura .fusao--hero { animation: recuo .42s var(--ease) var(--impacto) backwards; }
+
+/* ─── OS DOIS EMBLEMAS QUE VOAM ────────────────────────────
+   Moram DENTRO do .fusao: assim o ponto de encontro é o centro do medalhão
+   sem nenhuma medição em JS, e o alvo da passagem sai das medidas do próprio
+   medalhão (--med) em vez de números soltos.
+
+   A caixa de cada um é quadrada e o desenho é `contain`, então cada emblema
+   ocupa uma FATIA diferente dela: 357x419 no brasão, 400x465 no leão. O
+   --enc é metade da largura RENDERIZADA de cada um, mais um fio de folga
+   para o clarão caber no vão. */
+.choque {
+  display: none; position: absolute; inset: 0; z-index: 7; pointer-events: none;
+  --cx: calc(var(--med) * .72);
+}
+html.is-abertura .choque, .choque.is-fim { display: block; }
+/* pulou no meio do voo: os emblemas saem em fade, não com um corte seco */
+.choque.is-fim { opacity: 0; transition: opacity .3s var(--ease); }
+
 .choque__emblema {
-  position: absolute; left: 50%; top: var(--cy); display: block;
+  position: absolute; left: 50%; top: 50%; display: block;
   width: var(--cx); aspect-ratio: 1;
   /* opacity 0 na base: sem isto os dois ficam empilhados no centro durante
-     o --vem, antes do voo começar */
+     o --vem, antes de o voo começar */
   opacity: 0;
   filter: drop-shadow(0 0 26px rgba(0,0,0,.85));
 }
 .choque__emblema img { width: 100%; height: 100%; object-fit: contain; }
-.choque__emblema--a { --enc: calc(var(--cx) * .435); }   /* brasão 357/419 → .426 + folga */
-.choque__emblema--b { --enc: calc(var(--cx) * .44);  }   /* leão   400/465 → .430 + folga */
+/* --enc: onde ele PARA na batida. --par: para onde ele vai depois, que é o
+   centro da metade dele dentro do medalhão — a imagem da metade tem 62% da
+   largura do medalhão ancorada a 13% da borda, então o centro dela cai em
+   44%, 6% antes do meio. A escala final (.861) é 62/72: a razão entre a
+   caixa da metade e a caixa do emblema que voa. */
+.choque__emblema--a { --enc: calc(var(--cx) * .435); --par: calc(var(--med) * -.06); }  /* brasão 357/419 */
+.choque__emblema--b { --enc: calc(var(--cx) * .44);  --par: calc(var(--med) *  .06); }  /* leão   400/465 */
 
 /* Duas animações por emblema: o VOO acelera (entra devagar, chega rápido —
-   lê como massa ganhando velocidade) e o ASSENTAR freia. O voo leva `both`
-   (senão o par fica empilhado no meio durante o --vem); o assentar só
-   `forwards` (com `backwards` ele valeria já no primeiro quadro e o voo
+   lê como massa ganhando velocidade) e a PASSAGEM freia. O voo leva `both`
+   (senão o par fica empilhado no meio durante o --vem); a passagem só
+   `forwards` (com `backwards` ela valeria já no primeiro quadro e o voo
    nunca aconteceria). */
 .choque__emblema--a {
   animation:
-    voa-esq      var(--voo) cubic-bezier(.5,0,.85,.30) var(--vem) both,
-    assenta-esq  .7s        var(--freada)               var(--impacto) forwards;
+    voa-esq   var(--voo) cubic-bezier(.5,0,.85,.30) var(--vem) both,
+    passa-esq .62s       var(--freada)              var(--impacto) forwards;
 }
 .choque__emblema--b {
   animation:
-    voa-dir      var(--voo) cubic-bezier(.5,0,.85,.30) var(--vem) both,
-    assenta-dir  .7s        var(--freada)               var(--impacto) forwards;
+    voa-dir   var(--voo) cubic-bezier(.5,0,.85,.30) var(--vem) both,
+    passa-dir .62s       var(--freada)              var(--impacto) forwards;
 }
 @keyframes voa-esq {
   0%   { opacity: 0; transform: translate(calc(-50% - 62vw), -50%) rotate(-16deg) scale(.72); }
@@ -427,36 +442,30 @@ html.is-abertura .abertura, .abertura.is-gone { display: block; }
   18%  { opacity: 1; }
   100% { opacity: 1; transform: translate(calc(-50% + var(--enc)), -50%) rotate(0deg) scale(1); }
 }
-/* o rebote do golpe e o assentamento lado a lado, com um vão de 7px para a
-   costura de ouro aparecer entre os dois */
-@keyframes assenta-esq {
-  0%   { opacity: 1; transform: translate(calc(-50% - var(--enc)), -50%) scale(1); }
-  22%  { opacity: 1; transform: translate(calc(-50% - var(--enc) - 20px), -50%) scale(1.05); }
-  100% { opacity: 1; transform: translate(calc(-50% - var(--enc) - 7px), -50%) scale(.94); }
+/* ─── a passagem de bastão ─────────────────────────────────
+   O emblema não sai da batida para um lugar qualquer: vai para o ponto exato
+   onde a metade dele vai estar, no tamanho exato dela, e apaga ao chegar.
+   Some em 62% do percurso, e não no fim: nos últimos quadros a metade do
+   medalhão já está desenhada ali, e dois desenhos nítidos no mesmo ponto
+   leem como erro de renderização, não como um virando o outro. */
+@keyframes passa-esq {
+  0%   { opacity: 1;   transform: translate(calc(-50% - var(--enc)), -50%) scale(1); }
+  20%  { opacity: 1;   transform: translate(calc(-50% - var(--enc) - 20px), -50%) scale(1.05); }
+  62%  { opacity: .12; }
+  100% { opacity: 0;   transform: translate(calc(-50% + var(--par)), -50%) scale(.861); }
 }
-@keyframes assenta-dir {
-  0%   { opacity: 1; transform: translate(calc(-50% + var(--enc)), -50%) scale(1); }
-  22%  { opacity: 1; transform: translate(calc(-50% + var(--enc) + 20px), -50%) scale(1.05); }
-  100% { opacity: 1; transform: translate(calc(-50% + var(--enc) + 7px), -50%) scale(.94); }
-}
-
-/* a costura de ouro: só existe depois que os dois se encontram */
-.abertura__costura {
-  position: absolute; left: 50%; top: var(--cy); z-index: 6; display: block;
-  width: 2px; height: calc(var(--cx) * 1.08); opacity: 0;
-  transform: translate(-50%, -50%) rotate(4.6deg);
-  background: linear-gradient(180deg, transparent, var(--gold-pale) 18%, #fff 50%, var(--gold-pale) 82%, transparent);
-  box-shadow: 0 0 16px 2px rgba(240,220,176,.6);
-  animation: costura-abre .55s var(--ease) calc(var(--impacto) + .08s) forwards;
-}
-@keyframes costura-abre {
-  0%   { opacity: 0; transform: translate(-50%, -50%) rotate(4.6deg) scaleY(.2); filter: brightness(3); }
-  35%  { opacity: 1; transform: translate(-50%, -50%) rotate(4.6deg) scaleY(1.12); }
-  100% { opacity: 1; transform: translate(-50%, -50%) rotate(4.6deg) scaleY(1); filter: none; }
+@keyframes passa-dir {
+  0%   { opacity: 1;   transform: translate(calc(-50% + var(--enc)), -50%) scale(1); }
+  20%  { opacity: 1;   transform: translate(calc(-50% + var(--enc) + 20px), -50%) scale(1.05); }
+  62%  { opacity: .12; }
+  100% { opacity: 0;   transform: translate(calc(-50% + var(--par)), -50%) scale(.861); }
 }
 
+/* O clarão, as ondas e o risco saem do centro do medalhão e vazam por cima
+   de tudo — só a hero os apara (ela é `overflow: hidden`). É o que dá escala
+   ao impacto: sem eles a batida acontece dentro de 300px no meio da tela. */
 .choque__clarao {
-  position: absolute; left: 50%; top: var(--cy); display: block;
+  position: absolute; left: 50%; top: 50%; display: block;
   width: 130vmax; height: 130vmax; opacity: 0; transform: translate(-50%, -50%);
   background: radial-gradient(circle,
     #FFF6DE 0%, rgba(255,231,176,.85) 6%, rgba(196,112,63,.45) 15%, transparent 42%);
@@ -472,7 +481,7 @@ html.is-abertura .abertura, .abertura.is-gone { display: block; }
    A opacidade cai bem antes do fim da escala: ampliado, o hexágono vira duas
    barras verticais altas, e elas não podem ficar cruzando o nome. */
 .choque__onda {
-  position: absolute; left: 50%; top: var(--cy); display: block;
+  position: absolute; left: 50%; top: 50%; display: block;
   width: 240px; height: 240px; opacity: 0;
   box-shadow: inset 0 0 0 3px var(--gold-pale);
   clip-path: var(--hexr);
@@ -484,9 +493,11 @@ html.is-abertura .abertura, .abertura.is-gone { display: block; }
   55%  { opacity: .3; }
   100% { opacity: 0;   transform: translate(-50%, -50%) scale(7); }
 }
+/* 200vw, e não 100%: o risco mora dentro do medalhão, e 100% seria a largura
+   dele — a lâmina tem que rasgar a tela inteira */
 .choque__risco {
-  position: absolute; left: 50%; top: var(--cy); display: block;
-  width: 100%; height: 3px; opacity: 0;
+  position: absolute; left: 50%; top: 50%; display: block;
+  width: 200vw; height: 3px; opacity: 0;
   background: linear-gradient(90deg, transparent, var(--gold-pale) 30%, #FFF6DE 50%, var(--gold-pale) 70%, transparent);
   box-shadow: 0 0 26px 5px rgba(240,220,176,.6);
   animation: risco .56s var(--ease) var(--impacto) forwards;
@@ -495,18 +506,6 @@ html.is-abertura .abertura, .abertura.is-gone { display: block; }
   0%   { opacity: 0; transform: translate(-50%, -50%) scaleX(.02) scaleY(2.4); }
   14%  { opacity: 1; transform: translate(-50%, -50%) scaleX(.55) scaleY(1.6); }
   100% { opacity: 0; transform: translate(-50%, -50%) scaleX(1.4) scaleY(.25); }
-}
-.choque__cacos { position: absolute; inset: 0; z-index: 7; pointer-events: none; overflow: hidden; }
-.caco {
-  position: absolute; left: var(--ox); top: var(--oy);
-  width: var(--s); height: var(--s); border-radius: 50%;
-  background: radial-gradient(circle at 38% 32%, #FFF3D6, var(--cor) 55%, transparent 76%);
-  box-shadow: 0 0 calc(var(--s) * 3) var(--cor);
-  opacity: 0; animation: caco-voa var(--dur) var(--ease) forwards;
-}
-@keyframes caco-voa {
-  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.3); }
 }
 /* o tranco: a TELA leva o baque, fundo e tudo */
 @keyframes tranco {
@@ -519,42 +518,19 @@ html.is-abertura .abertura, .abertura.is-gone { display: block; }
   100% { transform: none; }
 }
 
-/* ─── o nome, carimbado pela batida ──────────────────────── */
-.abertura__nome {
-  position: absolute; left: 0; right: 0; z-index: 6;
-  top: calc(var(--cy) + var(--cx) * 1.14);
-  padding-inline: 16px; text-align: center; pointer-events: none;
-}
-.abertura__desig {
-  display: block; margin-bottom: 10px;
-  font-size: clamp(11px, 1.5vw, 14px); font-weight: 700;
-  letter-spacing: clamp(6px, 1.4vw, 12px); text-indent: clamp(6px, 1.4vw, 12px);
-  text-transform: uppercase; color: var(--gold);
-  animation: entra-sobe .6s var(--ease) calc(var(--impacto) + .14s) both;
-}
-.abertura__titulo {
-  display: block; font-family: var(--font-title);
-  font-size: clamp(64px, 11vw, 136px); font-weight: 800; line-height: .95;
-  letter-spacing: 1px; text-transform: uppercase;
-  animation:
-    carimbo .64s cubic-bezier(.2,.8,.25,1) calc(var(--impacto) + .04s) both,
-    brilho-letras 3.4s var(--ease) calc(var(--impacto) + .55s) infinite;
-}
+/* ─── o carimbo do nome ────────────────────────────────────
+   Vale para o <h1> inteiro (designação + PMPE), que é a peça que a batida
+   estampa. Ele NÃO muda de posição: é o mesmo título da hero, no mesmo
+   lugar, só entrando de outro jeito. */
 @keyframes carimbo {
   0%   { opacity: 0; transform: scale(1.5); filter: blur(10px) drop-shadow(0 8px 30px rgba(0,0,0,.8)); letter-spacing: 16px; }
   60%  { opacity: 1; }
   100% { opacity: 1; transform: none;       filter: blur(0)    drop-shadow(0 8px 30px rgba(0,0,0,.8)); letter-spacing: 1px; }
 }
-.abertura__corp {
-  display: block; margin-top: 14px;
-  font-size: clamp(11px, 1.4vw, 13px); font-weight: 700; letter-spacing: 3.4px;
-  text-transform: uppercase; color: var(--text-mute);
-  animation: entra-sobe .6s var(--ease) calc(var(--impacto) + .34s) both;
-}
 
-.abertura__pular {
+.hero__pular {
   position: absolute; right: 18px; bottom: calc(22px + env(safe-area-inset-bottom)); z-index: 8;
-  display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px;
+  display: none; align-items: center; gap: 8px; height: 38px; padding: 0 16px;
   font-size: 11px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase;
   color: var(--text-mute); cursor: pointer;
   box-shadow: inset 0 0 0 1px var(--border);
@@ -562,24 +538,19 @@ html.is-abertura .abertura, .abertura.is-gone { display: block; }
   transition: color var(--t), box-shadow var(--t);
   animation: entra-sobe .5s var(--ease) .5s both;
 }
-.abertura__pular:hover { color: var(--gold-light); box-shadow: inset 0 0 0 1px var(--border-active); }
-.abertura__pular svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; }
-/* a linha do tempo da abertura: diz sem palavras que isto acaba sozinho */
-.abertura__tempo {
-  position: absolute; left: 0; bottom: 0; z-index: 8; display: block;
+html.is-entrando .hero__pular { display: inline-flex; }
+.hero__pular:hover { color: var(--gold-light); box-shadow: inset 0 0 0 1px var(--border-active); }
+.hero__pular svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+/* a linha do tempo da entrada: diz sem palavras que isto acaba sozinho */
+html.is-entrando .hero__tempo { display: block; }
+.hero__tempo {
+  position: absolute; left: 0; bottom: 0; z-index: 8; display: none;
   width: 100%; height: 2px; transform-origin: left; transform: scaleX(0);
   background: linear-gradient(90deg, var(--gold-deep), var(--gold), var(--gold-pale));
   box-shadow: 0 0 12px rgba(175,146,86,.7);
   animation: tempo calc(var(--impacto) + 1.55s) linear forwards;
 }
 @keyframes tempo { to { transform: scaleX(1); } }
-
-/* enquanto a abertura está de pé: sem rolagem, cascata da hero pausada (e
-   não escondida — ela roda inteira quando a cortina sobe) e sem as camadas
-   fixas que moram fora do .site */
-html.is-abertura, html.is-abertura body { overflow: hidden; }
-html.is-abertura .anim { animation-play-state: paused; }
-html.is-abertura .dock, html.is-abertura .float { display: none; }
 
 /* =========================================================
    NAVBAR
@@ -640,8 +611,9 @@ html.is-abertura .dock, html.is-abertura .float { display: none; }
    HERO
    ========================================================= */
 .hero {
-  /* marcação da colisão do medalhão — só vale quando a abertura NÃO tocou
-     (ver .sem-abertura mais abaixo) */
+  /* marcação da colisão CURTA, a de dentro do medalhão — só vale quando a
+     entrada cheia não tocou (ver .sem-abertura mais abaixo). Na entrada
+     cheia estes três são redefinidos em html.is-abertura .hero */
   --vem:     .5s;
   --bate:    .5s;
   --impacto: 1s;     /* --vem + --bate */
@@ -728,8 +700,9 @@ html.is-abertura .dock, html.is-abertura .float { display: none; }
    O MEDALHÃO PARTIDO — PMPE | CPPEM
    ---------------------------------------------------------
    Um hexágono cortado por uma costura diagonal de ouro: de um lado o brasão
-   da PMPE, do outro o leão do CPPEM. É a mesma dupla que bateu na abertura,
-   agora montada numa peça só.
+   da PMPE, do outro o leão do CPPEM. É a mesma dupla que bateu na entrada,
+   agora montada numa peça só — e é dentro desta caixa que a batida acontece
+   (ver "A ENTRADA", acima).
 
    O .fusao__core tem clip-path hexagonal, e clip-path recorta também os
    descendentes — então cada lado usa o seu próprio recorte diagonal sem
@@ -739,7 +712,11 @@ html.is-abertura .dock, html.is-abertura .float { display: none; }
 .fusoes { display: flex; justify-content: center; margin-top: 40px; }
 .fusao-wrap { display: flex; flex-direction: column; align-items: center; }
 .fusao {
-  position: relative; width: clamp(200px, 26vw, 300px); aspect-ratio: 1;
+  /* --med é a régua da peça: a largura do medalhão. Os emblemas que voam na
+     entrada saem dela (tamanho, ponto de encontro e alvo da passagem), então
+     mudar o medalhão de tamanho reajusta a cena inteira junto. */
+  --med: clamp(200px, 26vw, 300px);
+  position: relative; width: var(--med); aspect-ratio: 1;
   /* hexágono de bico curto: a faixa de largura cheia vai de 18% a 82% da
      altura, e é ela que decide o tamanho máximo do desenho */
   --hex: polygon(50% 0%, 93.3% 18%, 93.3% 82%, 50% 100%, 6.7% 82%, 6.7% 18%);
@@ -818,10 +795,10 @@ html.is-abertura .dock, html.is-abertura .float { display: none; }
 
 .fusao__clarao, .fusao__onda, .fusao__estilhacos { position: absolute; pointer-events: none; opacity: 0; }
 
-/* ─── A COLISÃO DO MEDALHÃO — só sem a abertura ────────────
-   Quem viu a abertura acabou de ver o leão e o brasão baterem em tela
-   cheia: repetir o choque aqui, três segundos depois, seria a mesma cena
-   duas vezes. Para essa pessoa o medalhão entra montado, na cascata.
+/* ─── A COLISÃO CURTA — só sem a entrada cheia ─────────────
+   Quem acabou de ver os dois emblemas atravessarem a hero não pode ver o
+   mesmo choque de novo em miniatura: para essa pessoa as metades já foram
+   entregues pela passagem de bastão (ver "A ENTRADA").
 
    Quem NÃO viu (segunda visita na sessão, link com ?abertura=0) recebe a
    colisão aqui, dentro do aro — assim a logo em movimento nunca falta. */
@@ -1651,7 +1628,7 @@ html.is-abertura .dock, html.is-abertura .float { display: none; }
 }
 .final__inner { position: relative; z-index: 3; }
 .final .fusoes { margin: 0 0 34px; }
-.final .fusao { width: clamp(170px, 20vw, 220px); }
+.final .fusao { --med: clamp(170px, 20vw, 220px); }
 .final h2 {
   font-family: var(--font-title); font-size: clamp(30px, 4.8vw, 54px); font-weight: 800; line-height: 1.04;
   letter-spacing: 1px; text-transform: uppercase; color: var(--text);
@@ -1865,7 +1842,7 @@ html.is-abertura .dock, html.is-abertura .float { display: none; }
   .tag { height: auto; min-height: 38px; padding: 8px 14px; font-size: 10.5px; letter-spacing: 2px; line-height: 1.5; text-wrap: balance; }
   .scroller { display: none; }
   .fusoes { margin-top: 32px; }
-  .fusao--hero { width: clamp(190px, 56vw, 250px); }
+  .fusao--hero { --med: clamp(190px, 56vw, 250px); }
   .ficha { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 34px; }
 
   .btn--lg { height: 58px; padding: 0 26px; font-size: 13.5px; letter-spacing: 2px; }
@@ -1944,14 +1921,6 @@ html.is-abertura .dock, html.is-abertura .float { display: none; }
   .eyebrow { letter-spacing: 3.4px; gap: 9px; text-align: center; }
   .eyebrow::before, .eyebrow::after { width: 18px; flex-shrink: 0; }
   .ficha__item span { letter-spacing: 1.6px; }
-  .abertura { --cy: 38%; }
-}
-
-/* tela baixa (celular deitado): a abertura encolhe para o nome caber */
-@media (max-height: 560px) {
-  .abertura { --cx: min(clamp(90px, 14vw, 160px), 26vh); --cy: 34%; }
-  .abertura__titulo { font-size: clamp(44px, 8vw, 80px); }
-  .abertura__corp { display: none; }
 }
 
 /* =========================================================
@@ -1968,6 +1937,6 @@ html.is-abertura .dock, html.is-abertura .float { display: none; }
     transition-duration: .01ms !important;
   }
   .reveal, .anim { opacity: 1 !important; transform: none !important; }
-  .brasas, .sparks, .abertura, .investimento__brasas { display: none !important; }
+  .brasas, .sparks, .choque, .investimento__brasas { display: none !important; }
   .fila { overflow-x: auto; }
 }

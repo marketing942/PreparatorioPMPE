@@ -84,7 +84,10 @@
     try { visto = sessionStorage.getItem("pmpe-abertura"); } catch (e) {}
     var reduz = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var tocar = /[?&]abertura=1/.test(q) || (!reduz && !visto && !/[?&]abertura=0/.test(q));
-    d.className += tocar ? " is-abertura" : " sem-abertura";
+    /* is-abertura é a coreografia e fica até o fim da página; is-entrando é
+       só o estado "a cena está rodando" (rolagem travada, Pular à mostra) e
+       sai quando ela termina. Ver o bloco das três classes no styles.css. */
+    d.className += tocar ? " is-abertura is-entrando" : " sem-abertura";
   })();
 </script>
 </head>
@@ -94,54 +97,6 @@
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://sgtm.cppem.com.br/metrics/ns.html"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
-<!-- =========================================================
-     A ABERTURA
-     ---------------------------------------------------------
-     O leão do CPPEM e o brasão da PMPE batem no meio da tela; da batida
-     nascem a placa, a costura e o nome do curso. Some sozinha em ~2,6s,
-     e qualquer toque pula. É decorativa: os dois emblemas são anunciados
-     de verdade logo abaixo, no medalhão da hero.
-     ========================================================= -->
-<div class="abertura" id="abertura" aria-hidden="true">
-  <div class="abertura__bg"></div>
-  <div class="abertura__veil"></div>
-  <div class="abertura__grid"></div>
-  <div class="abertura__scan"></div>
-  <div class="abertura__brasas" id="aberturaBrasas"></div>
-
-  <i class="abertura__halo"></i>
-  <i class="abertura__placa"><i></i></i>
-
-  <div class="choque">
-    <!-- Cada um vem do MESMO lado que ocupa no medalhão da hero (PMPE à
-         esquerda, leão à direita): a cena é a origem daquela peça. -->
-    <i class="choque__emblema choque__emblema--a">
-      <img src="public/brasao-pmpe.webp" alt="" width="357" height="419">
-    </i>
-    <i class="choque__emblema choque__emblema--b">
-      <img src="public/emblema-leao.webp" alt="" width="400" height="465">
-    </i>
-    <i class="choque__clarao"></i>
-    <i class="choque__onda"></i>
-    <i class="choque__onda choque__onda--2"></i>
-    <i class="choque__risco"></i>
-  </div>
-  <i class="abertura__costura"></i>
-  <div class="choque__cacos" id="choqueCacos"></div>
-
-  <div class="abertura__nome">
-    <span class="abertura__desig">Preparatório online</span>
-    <span class="abertura__titulo luz">PMPE</span>
-    <span class="abertura__corp">Polícia Militar de Pernambuco</span>
-  </div>
-
-  <button type="button" class="abertura__pular" tabindex="-1">
-    Pular
-    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-  </button>
-  <i class="abertura__tempo"></i>
-</div>
 
 <!-- Camadas globais da página -->
 <div class="progress" id="progress" aria-hidden="true"></div>
@@ -194,10 +149,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="luz">PMPE</span>
     </h1>
 
-    <!-- ─── O MEDALHÃO PARTIDO ─────────────────────────────────
+    <!-- ─── O MEDALHÃO PARTIDO, E A ENTRADA ────────────────────
          PMPE de um lado, o leão do CPPEM do outro, com a costura de ouro no
-         meio: a mesma dupla que bateu na abertura, agora numa peça só.
-         Sem a abertura (2ª visita na sessão), é aqui que a colisão acontece.
+         meio. É também o palco da entrada: no primeiro quadro ele aparece
+         VAZIO, e os dois emblemas do .choque atravessam a tela para bater
+         bem no centro dele e virar as suas duas metades.
          Se uma imagem falhar, o script troca aquele lado pela sigla. -->
     <div class="fusoes anim d3">
       <div class="fusao-wrap">
@@ -218,6 +174,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="fusao__clarao" aria-hidden="true"></span>
           <span class="fusao__onda" aria-hidden="true"></span>
           <span class="fusao__estilhacos" id="estilhacos" aria-hidden="true"></span>
+
+          <!-- Os dois emblemas que voam e batem no centro deste medalhão.
+               Ficam DENTRO dele de propósito: é o que faz o ponto de encontro
+               ser o centro da peça sem nenhuma medição em JS. Decorativos —
+               os mesmos desenhos são anunciados pelas metades, acima. Cada um
+               vem do lado que ocupa no medalhão: PMPE à esquerda, leão à
+               direita. -->
+          <div class="choque" aria-hidden="true">
+            <i class="choque__emblema choque__emblema--a">
+              <img src="public/brasao-pmpe.webp" alt="" width="357" height="419">
+            </i>
+            <i class="choque__emblema choque__emblema--b">
+              <img src="public/emblema-leao.webp" alt="" width="400" height="465">
+            </i>
+            <i class="choque__clarao"></i>
+            <i class="choque__onda"></i>
+            <i class="choque__onda choque__onda--2"></i>
+            <i class="choque__risco"></i>
+          </div>
         </div>
         <div class="fusao__placa">
           <b>Polícia Militar de Pernambuco</b>
@@ -250,6 +225,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <div class="scroller" aria-hidden="true"><i></i></div>
+
+  <!-- Só existem enquanto a entrada está rodando (o CSS os mostra em
+       html.is-abertura). A linha do tempo diz, sem palavras, que isto acaba
+       sozinho — e o botão está aí para quem não quer esperar. -->
+  <button type="button" class="hero__pular" tabindex="-1">
+    Pular
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </button>
+  <i class="hero__tempo" aria-hidden="true"></i>
 </section>
 
 <!-- ================= FAIXA CORRIDA ================= -->
@@ -388,13 +372,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="item__txt">
           <b>Mentoria para o TAF</b>
           <span>A prova física com preparação própria — porque aprovado que roda no TAF não entra na farda.</span>
-        </span>
-      </div>
-      <div class="item">
-        <span class="item__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span>
-        <span class="item__txt">
-          <b>Mentoria para o Psicotécnico</b>
-          <span>A fase que mais elimina candidato sem que ele saiba o porquê, tratada com a mesma seriedade das outras.</span>
         </span>
       </div>
       <div class="item">
@@ -731,7 +708,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li><b>Gráficos de evolução</b></li>
           <li><b>Grupo exclusivo</b> com mentores</li>
           <li><b>Mentoria para o TAF</b></li>
-          <li><b>Mentoria para o Psicotécnico</b></li>
           <li><b>Plataforma com IA</b> treinada</li>
           <li><b>Método MDT</b></li>
           <li><b>Apostila Digital</b> da PMPE</li>

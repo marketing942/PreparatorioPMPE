@@ -57,7 +57,6 @@
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var raiz = document.documentElement;
-  var site = document.getElementById("site");
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
@@ -139,89 +138,101 @@
   })();
 
   /* =========================================================
-     3 · A ABERTURA
+     3 · A ENTRADA
      ---------------------------------------------------------
-     O <head> já decidiu se ela toca (classe is-abertura, escrita
-     antes do primeiro quadro). A cena inteira é CSS; aqui só:
+     A cena mora na hero e é toda CSS (ver "A ENTRADA" no
+     styles.css). Aqui só:
        · soltar os estilhaços no instante da batida
-       · marcar o fim e levantar a cortina
+       · destravar a página quando ela termina
        · deixar qualquer toque, tecla ou rolagem pular
 
      O instante da batida é ESCUTADO, não calculado: o
      animationend do voo do emblema da esquerda dispara
-     exatamente quando ele encosta no outro. Comparar o --impacto com performance.now()
-     erraria pelo tempo que a página levou para pintar — os dois
-     relógios começam em momentos diferentes.
+     exatamente quando ele encosta no outro. Comparar o
+     --impacto com performance.now() erraria pelo tempo que a
+     página levou para pintar — os dois relógios começam em
+     momentos diferentes.
+
+     Sair é só tirar a classe do <html>: como todo estado da
+     cena é `html.is-abertura ...` sobre a hero de verdade, a
+     página assume o estado final no mesmo quadro. É isso que
+     faz pular no meio não custar nada.
      ========================================================= */
-  var abertura = document.getElementById("abertura");
-  var comAbertura = !!abertura && raiz.classList.contains("is-abertura");
+  var choque = $(".choque");
+  var comAbertura = raiz.classList.contains("is-abertura");
   var saiu = false;
   var DEPOIS_DA_BATIDA = 1550;   /* casa com o `tempo` do CSS: --impacto + 1.55s */
 
-  function travarSite(travado) {
-    if (!site) return;
-    if (travado) { site.setAttribute("inert", ""); site.setAttribute("aria-hidden", "true"); }
-    else { site.removeAttribute("inert"); site.removeAttribute("aria-hidden"); }
-  }
-
-  function sairAbertura() {
-    if (saiu) return;
-    saiu = true;
-    try { sessionStorage.setItem("pmpe-abertura", "1"); } catch (e) { /* sem storage */ }
-    abertura.classList.add("is-gone");
-    /* tirar a classe do <html> é o que despausa a cascata da hero: ela começa
-       enquanto a cortina ainda está subindo, e as duas coisas leem como uma */
-    raiz.classList.remove("is-abertura");
-    travarSite(false);
-    window.scrollTo(0, 0);
-    ligarObservadores();
-    setTimeout(function () { if (abertura.parentNode) abertura.parentNode.removeChild(abertura); }, 800);
-  }
-
-  var TONS_CACO = ["#FFE7B0", "#C9AE7A", "#C4703F"];
-  function estilhacar(alvo, px, py, quantos, forca) {
+  /* Os estilhaços são os únicos que dependem de JS: o script cria os <i> com
+     ângulo, distância e tamanho sorteados, e a animação é CSS. Sem JS a
+     batida acontece igual — só não solta faísca. */
+  var TONS_CACO = ["#F0DCB0", "#C9AE7A", "#C4703F"];
+  function estilhacar(quantos, base, variacao, atraso) {
+    var alvo = document.getElementById("estilhacos");
     if (!alvo || reduced) return;
-    alvo.textContent = "";
     for (var i = 0; i < quantos; i++) {
       var caco = document.createElement("i");
-      var ang  = Math.random() * Math.PI * 2;
-      var dist = forca * (.42 + Math.random());
-      caco.className = "caco";
-      caco.style.setProperty("--ox", px + "px");
-      caco.style.setProperty("--oy", py + "px");
-      caco.style.setProperty("--dx", Math.cos(ang) * dist + "px");
-      caco.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+      /* espalha em torno da horizontal, e não em círculo: as duas massas
+         vieram dos lados. ±38° é o que separa "explosão" de "chuveiro" */
+      var ang = (i % 2 === 0 ? 0 : 180) + (Math.random() * 76 - 38);
+      caco.className = "estilhaco";
+      caco.style.setProperty("--ox", "50%");
+      caco.style.setProperty("--ang", ang.toFixed(1) + "deg");
+      /* cqw, e não %: em transform a porcentagem é do PRÓPRIO caco (4px), e
+         os cacos ficariam empilhados no centro */
+      caco.style.setProperty("--dist", (base + Math.random() * variacao).toFixed(0) + "cqw");
       caco.style.setProperty("--s", (2 + Math.random() * 4).toFixed(1) + "px");
-      caco.style.setProperty("--cor", TONS_CACO[Math.floor(Math.random() * TONS_CACO.length)]);
-      caco.style.setProperty("--dur", (.5 + Math.random() * .6).toFixed(2) + "s");
+      caco.style.setProperty("--cor", TONS_CACO[Math.floor(Math.random() * 3)]);
+      caco.style.setProperty("--dur", (.55 + Math.random() * .5).toFixed(2) + "s");
+      caco.style.setProperty("--atraso", (atraso + Math.random() * .09).toFixed(3) + "s");
       alvo.appendChild(caco);
     }
   }
 
-  if (comAbertura) {
-    travarSite(true);
+  /* Sair NÃO tira a classe da coreografia: só o estado "rodando". Tirar a
+     coreografia devolveria cada peça para a animação normal da cascata, e
+     trocar a animação de um elemento no meio do caminho faz o navegador
+     tratá-la como nova — o título e o medalhão re-entravam do zero depois da
+     cena. Quem pula ganha `is-pulado`, que congela tudo no estado final. */
+  function sairAbertura(pulou) {
+    if (saiu) return;
+    saiu = true;
+    try { sessionStorage.setItem("pmpe-abertura", "1"); } catch (e) { /* sem storage */ }
+    raiz.classList.remove("is-entrando");
+    if (pulou) raiz.classList.add("is-pulado");
+    if (choque) {
+      choque.classList.add("is-fim");
+      setTimeout(function () { if (choque.parentNode) choque.parentNode.removeChild(choque); }, 400);
+    }
+    window.scrollTo(0, 0);
+    ligarObservadores();
+  }
 
-    var esquerdo = $(".choque__emblema--a", abertura);
+  if (comAbertura && choque) {
+    var esquerdo = $(".choque__emblema--a", choque);
     if (esquerdo) {
       esquerdo.addEventListener("animationend", function (e) {
-        if (e.animationName !== "voa-esq") return;   /* ignora o assentar */
-        var cy = parseFloat(getComputedStyle(abertura).getPropertyValue("--cy")) || 40;
-        estilhacar(document.getElementById("choqueCacos"),
-          window.innerWidth / 2, window.innerHeight * cy / 100, 40, 420);
-        setTimeout(sairAbertura, DEPOIS_DA_BATIDA);
+        if (e.animationName !== "voa-esq") return;   /* ignora a passagem */
+        estilhacar(26, 90, 160, 0);
+        /* fim natural: a cena chegou ao fim sozinha, então não há nada para
+           congelar — as peças já estão todas no estado final */
+        setTimeout(function () { sairAbertura(false); }, DEPOIS_DA_BATIDA);
       });
     }
 
-    abertura.addEventListener("click", sairAbertura);
-    window.addEventListener("wheel", sairAbertura, { passive: true, once: true });
+    function pular() { sairAbertura(true); }
+    document.addEventListener("click", pular);
+    window.addEventListener("wheel", pular, { passive: true, once: true });
     document.addEventListener("keydown", function (e) {
-      if (/^(Escape|Enter| |ArrowDown|PageDown)$/.test(e.key)) sairAbertura();
+      /* Tab também pula: quem navega por teclado não pode dar de cara com o
+         foco num botão que ainda está invisível */
+      if (/^(Escape|Enter| |Tab|ArrowDown|PageDown)$/.test(e.key)) pular();
     });
     /* Rede de segurança: numa aba em segundo plano as animações não rodam e o
-       animationend pode nunca chegar. A abertura não pode virar uma parede. */
-    setTimeout(sairAbertura, 5200);
-  } else if (abertura) {
-    abertura.parentNode.removeChild(abertura);
+       animationend pode nunca chegar. A entrada não pode virar uma parede. */
+    setTimeout(pular, 5200);
+  } else if (choque) {
+    choque.parentNode.removeChild(choque);
   }
 
   /* =========================================================
@@ -431,30 +442,15 @@
      7 · ATMOSFERA
      ========================================================= */
 
-  /* ─── estilhaços do medalhão da hero ───────────────────────
-     Só quando a abertura NÃO tocou (é o único caso em que o medalhão bate).
-     O CSS segura cada caco pelo animation-delay, mas o delay conta a partir
-     da inserção no DOM; alinhamos somando o tempo que já passou. */
-  var caixaEstilhacos = document.getElementById("estilhacos");
+  /* ─── estilhaços da colisão curta ──────────────────────────
+     Só quando a entrada cheia NÃO tocou: aí a batida é a de dentro do
+     medalhão, e os cacos saem menores e mais perto. O CSS segura cada um
+     pelo animation-delay, mas o delay conta a partir da inserção no DOM —
+     alinhamos os dois relógios somando o tempo que já passou. */
   var medalhao = $(".fusao--hero");
-  if (caixaEstilhacos && medalhao && !reduced && raiz.classList.contains("sem-abertura")) {
+  if (medalhao && !reduced && raiz.classList.contains("sem-abertura")) {
     var impacto = parseFloat(getComputedStyle(medalhao).getPropertyValue("--impacto")) || 1;
-    var falta = Math.max(0, impacto * 1000 - performance.now()) / 1000;
-    var TONS_EST = ["#F0DCB0", "#C9AE7A", "#C4703F"];
-    for (var c = 0; c < 18; c++) {
-      var est = document.createElement("i");
-      var ang = (c % 2 === 0 ? 0 : 180) + (Math.random() * 76 - 38);
-      est.className = "estilhaco";
-      est.style.setProperty("--ox", "50%");
-      est.style.setProperty("--ang", ang.toFixed(1) + "deg");
-      /* cqw, e não %: em transform a porcentagem é do próprio caco (4px) */
-      est.style.setProperty("--dist", (42 + Math.random() * 68).toFixed(0) + "cqw");
-      est.style.setProperty("--s", (2 + Math.random() * 4).toFixed(1) + "px");
-      est.style.setProperty("--cor", TONS_EST[Math.floor(Math.random() * 3)]);
-      est.style.setProperty("--dur", (.55 + Math.random() * .5).toFixed(2) + "s");
-      est.style.setProperty("--atraso", (falta + Math.random() * .09).toFixed(3) + "s");
-      caixaEstilhacos.appendChild(est);
-    }
+    estilhacar(18, 42, 68, Math.max(0, impacto * 1000 - performance.now()) / 1000);
   }
 
   /* ─── brasas ───────────────────────────────────────────────
@@ -477,8 +473,7 @@
       alvo.appendChild(br);
     }
   }
-  semear(document.getElementById("brasas"), 22);
-  if (comAbertura) semear(document.getElementById("aberturaBrasas"), 34);
+  semear(document.getElementById("brasas"), 26);
   semear(document.getElementById("investBrasas"), 14);
 
   var sparks = document.getElementById("sparks");
