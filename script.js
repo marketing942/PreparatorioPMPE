@@ -349,7 +349,7 @@
         ioNum.unobserve(e.target);
       });
     }, { threshold: 0.6 });
-    $$(".ficha__item b, .vaga__num, .stat b, .final h2 .gold").forEach(function (el) { ioNum.observe(el); });
+    $$(".vaga__num, .stat b, .final h2 .gold").forEach(function (el) { ioNum.observe(el); });
   }
 
   /* sem JS de reveal, as classes de lado vindas do HTML não podem esconder nada */

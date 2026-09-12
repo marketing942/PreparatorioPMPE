@@ -324,7 +324,6 @@ html.is-entrando, html.is-entrando body { overflow: hidden; }
 html.is-entrando .dock, html.is-entrando .float { display: none; }
 
 html.is-pulado .anim,
-html.is-pulado .fusao__placa,
 html.is-pulado .fusao--hero,
 html.is-pulado .fusao--hero .fusao__lado,
 html.is-pulado .fusao--hero .fusao__costura,
@@ -342,16 +341,12 @@ html.is-pulado .fusao--hero .fusao__faisca {
    primeiro o nome carimbado, depois etiqueta, placa, texto, botões e
    números. Nenhum elemento muda de posição — muda só quando aparece, e é
    isso que faz a cena e a página serem a mesma coisa. */
-html.is-abertura .anim       { animation-delay: calc(var(--impacto) + .34s); }
-html.is-abertura .tag        { animation-delay: calc(var(--impacto) + .30s); }
-html.is-abertura .hero__sub  { animation-delay: calc(var(--impacto) + .46s); }
-html.is-abertura .hero__cta  { animation-delay: calc(var(--impacto) + .58s); }
-html.is-abertura .hero__nota { animation-delay: calc(var(--impacto) + .66s); }
-html.is-abertura .ficha      { animation-delay: calc(var(--impacto) + .76s); }
+html.is-abertura .anim       { animation-delay: calc(var(--impacto) + .40s); }
+html.is-abertura .hero__cta  { animation-delay: calc(var(--impacto) + .42s); }
+html.is-abertura .hero__corp { animation-delay: calc(var(--impacto) + .56s); }
 /* o medalhão é o palco: está lá desde o primeiro quadro, e vazio */
-html.is-abertura .fusoes.anim  { opacity: 1; animation: none; }
-html.is-abertura .fusao__placa { opacity: 0; animation: entra-sobe .5s var(--ease) calc(var(--impacto) + .42s) both; }
-html.is-abertura .scroller     { animation: entra-sobe .6s var(--ease) calc(var(--impacto) + .9s) both; }
+html.is-abertura .fusoes.anim { opacity: 1; animation: none; }
+html.is-abertura .scroller    { animation: entra-sobe .6s var(--ease) calc(var(--impacto) + .78s) both; }
 /* O HEADER fica de pé desde o primeiro quadro, e é de propósito: quem já
    decidiu não deve esperar a cena acabar para achar o "Garantir vaga". Ele
    também não teria como entrar na cascata sem duplicar a marcação de tempo —
@@ -656,20 +651,16 @@ html.is-entrando .hero__tempo { display: block; }
 }
 .hero__inner { position: relative; z-index: 4; }
 
-.tag {
-  display: inline-flex; align-items: center; gap: 11px;
-  height: 38px; padding: 0 18px; margin-bottom: 24px;
-  background: rgba(175,146,86,.08);
-  box-shadow: inset 0 0 0 1px var(--border-active);
-  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  font-size: 11.5px; font-weight: 700; letter-spacing: 2.6px;
-  text-transform: uppercase; color: var(--gold-light);
-}
-.tag .dot { flex-shrink: 0; width: 7px; height: 7px; border-radius: 50%; background: var(--ember); animation: pulse 2.2s infinite; }
+/* ─── A DOBRA É A CENA ─────────────────────────────────────
+   A ordem é a do filme: o medalhão primeiro, o nome carimbado embaixo dele,
+   os dois botões e a assinatura da corporação fechando. Nada de etiqueta,
+   parágrafo ou painel de números aqui — tudo isso já é dito nas seções
+   seguintes, e na dobra só rouba a cena da peça. */
 
 /* "PMPE" é uma palavra de quatro letras: pode (e deve) ser bem maior que um
    nome composto — é ela que segura a dobra */
 .hero__title {
+  margin-top: clamp(18px, 3vh, 34px);
   font-family: var(--font-title); font-size: clamp(76px, 13vw, 156px);
   font-weight: 800; line-height: .94; letter-spacing: 1px;
   text-transform: uppercase; color: var(--text);
@@ -684,15 +675,19 @@ html.is-entrando .hero__tempo { display: block; }
   filter: drop-shadow(0 8px 36px rgba(0,0,0,.7));
   animation: brilho-letras 5s var(--ease) 1.4s infinite;
 }
-.hero__sub {
-  max-width: 58ch; margin: 30px auto 0;
-  color: var(--text-dim); font-size: clamp(16px, 2vw, 19px); line-height: 1.6;
+.hero__cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: clamp(24px, 4vh, 36px); }
+/* A assinatura da corporação fecha a dobra, embaixo dos botões. Texto puro, e
+   não a placa que era: uma caixa com moldura logo abaixo de dois botões
+   grandes vira uma terceira peça disputando o clique. */
+.hero__corp { margin-top: 26px; }
+.hero__corp b {
+  display: block; font-family: var(--font-title);
+  font-size: clamp(13px, 1.5vw, 15px); font-weight: 800;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--gold-light);
 }
-.hero__sub strong { color: var(--gold-light); }
-.hero__cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 32px; }
-.hero__nota {
-  display: block; margin-top: 18px;
-  font-size: 12px; font-weight: 700; letter-spacing: 2.2px;
+.hero__corp span {
+  display: block; margin-top: 5px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 2.4px;
   text-transform: uppercase; color: var(--text-mute);
 }
 
@@ -709,7 +704,9 @@ html.is-entrando .hero__tempo { display: block; }
    máscara composta. Os dois lados ocupam a LARGURA INTEIRA do núcleo: é o que
    faz cada desenho mostrar a sua metade, e não a imagem inteira espremida.
    ========================================================= */
-.fusoes { display: flex; justify-content: center; margin-top: 40px; }
+/* sem margem no topo: na dobra o medalhão é a PRIMEIRA peça, não uma
+   ilustração depois do texto */
+.fusoes { display: flex; justify-content: center; }
 .fusao-wrap { display: flex; flex-direction: column; align-items: center; }
 .fusao {
   /* --med é a régua da peça: a largura do medalhão. Os emblemas que voam na
@@ -722,6 +719,10 @@ html.is-entrando .hero__tempo { display: block; }
   --hex: polygon(50% 0%, 93.3% 18%, 93.3% 82%, 50% 100%, 6.7% 82%, 6.7% 18%);
   container-type: inline-size;
 }
+/* Na hero o medalhão ABRE a página: entra com a mesma presença que tem na
+   cena, e é ele que manda na dobra. No CTA final ele é só um selo. */
+.fusao--hero { --med: clamp(230px, 26vw, 340px); }
+
 .fusao::before {
   content: ''; position: absolute; inset: -18%; z-index: 0; border-radius: 50%;
   background: radial-gradient(circle, var(--halo), transparent 68%);
@@ -877,45 +878,6 @@ html.is-entrando .hero__tempo { display: block; }
   0%   { opacity: 0; transform: translate(-50%,-50%) rotate(var(--ang)) translateX(0); }
   12%  { opacity: 1; }
   100% { opacity: 0; transform: translate(-50%,-50%) rotate(var(--ang)) translateX(var(--dist)) scale(.3); }
-}
-
-.fusao__placa {
-  margin-top: 18px; padding: 12px 22px 11px; text-align: center;
-  background: linear-gradient(180deg, rgba(24,24,30,.85), rgba(12,12,15,.9));
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  box-shadow: inset 0 0 0 1px var(--border);
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-}
-.fusao__placa b {
-  display: block; font-family: var(--font-title); font-size: 14px; font-weight: 800;
-  letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light);
-}
-.fusao__placa span {
-  display: block; margin-top: 3px; font-size: 10.5px; font-weight: 700;
-  letter-spacing: 2.4px; text-transform: uppercase; color: var(--text-mute);
-}
-
-/* ─── FICHA (números da hero) ──────────────────────────── */
-.ficha { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 940px; margin: 46px auto 0; }
-.ficha__item {
-  position: relative; padding: 18px 14px 16px; text-align: center;
-  background: linear-gradient(180deg, rgba(24,24,30,.78), rgba(12,12,15,.86));
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  box-shadow: inset 0 0 0 1px var(--border);
-  clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 13px 100%, 0 calc(100% - 13px));
-  transition: background var(--t), box-shadow var(--t), transform var(--t);
-}
-.ficha__item:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px var(--border-active); }
-.ficha__item b {
-  display: block; font-family: var(--font-title);
-  font-size: clamp(24px, 3.4vw, 34px); font-weight: 800; line-height: 1;
-  letter-spacing: .5px; font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg, var(--gold-pale), var(--gold) 52%, var(--gold-dark));
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.ficha__item span {
-  display: block; margin-top: 8px; font-size: 10px; font-weight: 700;
-  letter-spacing: 2.2px; text-transform: uppercase; color: var(--text-mute); line-height: 1.5;
 }
 
 .scroller { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 4; }
@@ -1834,16 +1796,18 @@ html.is-entrando .hero__tempo { display: block; }
   .brand__nome i { font-size: 8.5px; letter-spacing: 2px; }
   .header .btn { height: 38px; padding: 0 14px; font-size: 10.5px; letter-spacing: 1.6px; }
 
-  .hero { min-height: auto; padding-top: calc(var(--nav-h) + 26px); padding-bottom: 58px; }
+  /* min-height fica em 100svh também no celular: com a dobra enxuta o
+     conteúdo cabe, e sem isso a faixa corrida da seção seguinte aparecia no
+     rodapé da tela — inclusive no meio da cena de entrada */
+  .hero { min-height: 100svh; padding-top: calc(var(--nav-h) + 20px); padding-bottom: 48px; }
   .hero__bg i { opacity: .22; }
   .hero__cta { flex-direction: column; }
   .hero__cta .btn { width: 100%; }
-  /* balance: sem ele a etiqueta quebra deixando "2026" sozinho na 2ª linha */
-  .tag { height: auto; min-height: 38px; padding: 8px 14px; font-size: 10.5px; letter-spacing: 2px; line-height: 1.5; text-wrap: balance; }
   .scroller { display: none; }
-  .fusoes { margin-top: 32px; }
-  .fusao--hero { --med: clamp(190px, 56vw, 250px); }
-  .ficha { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 34px; }
+  .fusao--hero { --med: clamp(200px, 58vw, 268px); }
+  .hero__corp { margin-top: 22px; }
+  .hero__corp b { letter-spacing: 2.4px; }
+  .hero__corp span { font-size: 10.5px; letter-spacing: 2px; }
 
   .btn--lg { height: 58px; padding: 0 26px; font-size: 13.5px; letter-spacing: 2px; }
 
@@ -1920,7 +1884,6 @@ html.is-entrando .hero__tempo { display: block; }
   /* eyebrow longa quebrava torta entre os dois fios decorativos */
   .eyebrow { letter-spacing: 3.4px; gap: 9px; text-align: center; }
   .eyebrow::before, .eyebrow::after { width: 18px; flex-shrink: 0; }
-  .ficha__item span { letter-spacing: 1.6px; }
 }
 
 /* =========================================================
