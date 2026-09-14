@@ -6,8 +6,7 @@
      3. ABERTURA    a colisão de entrada e a saída dela
      4. PÁGINA      header, progresso, parallax, dock
      5. REVEAL      entrada ao rolar + contagem dos números
-     6. PLATAFORMA  a vitrine de prints
-     7. ATMOSFERA   brasas, faíscas, estilhaços, brilho no cursor
+     6. ATMOSFERA   brasas, faíscas, estilhaços, brilho no cursor
    ========================================================= */
 (function () {
   "use strict";
@@ -26,7 +25,7 @@
      no momento exato em que a pessoa vai digitar o cartão.
      ========================================================= */
   var CONFIG = {
-    pagina:  "preparatorio-pmpe",
+    pagina:  "preparatorio-online-pmpe",
     produto: "Preparatório Online PMPE",
     whats:   "558173105354",
 
@@ -35,6 +34,8 @@
        colado inteiro, todo comprador cairia no checkout como "Teste Teste" e
        toda venda seria atribuída àquela campanha. As UTMs de quem chega pelo
        anúncio são repassadas pelo linkCheckout(), abaixo.
+       O slug ainda diz "preparatorio-online": é o endereço REAL da página de
+       pagamento e não acompanha o nome do produto — trocar aqui quebra o botão.
        Vazio, os botões levam ao WhatsApp — a página nunca fica com CTA morto.
        (A mesma URL está no fallback dos botões e no JSON-LD do index.html.) */
     checkout: "https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01",
@@ -120,7 +121,7 @@
        aberta atrás da conversa. */
     var href = CONFIG.checkout ? linkCheckout()
       : "https://wa.me/" + CONFIG.whats + "?text=" + encodeURIComponent(
-          "Olá! Tenho interesse no " + CONFIG.produto + ". Como faço para garantir minha vaga?");
+          "Olá! Tenho interesse na " + CONFIG.produto + ". Como faço para garantir minha vaga?");
     $$("[data-checkout]").forEach(function (btn) {
       btn.href = href;
       if (CONFIG.checkout) { btn.removeAttribute("target"); btn.removeAttribute("rel"); }
@@ -292,7 +293,7 @@
      e a ficha da hero contaria enquanto ninguém olhava.
      ========================================================= */
   var alvos = $$(
-    ".section__head, .item, .extras__head, .extra, .vaga, .etapas, .plat, .plat__rodape, " +
+    ".section__head, .item, .vaga, .etapas, " +
     ".duo__foto, .duo__texto, .galeria, .vs-wrap, .oferta__resumo, .preco__moldura, .faq__item, .final__inner"
   );
 
@@ -360,86 +361,7 @@
   if (!comAbertura) ligarObservadores();
 
   /* =========================================================
-     6 · A VITRINE DA PLATAFORMA
-     ---------------------------------------------------------
-     Troca sozinha enquanto está na tela; pausa com o cursor em
-     cima; e deixa de trocar de vez quando a pessoa escolhe uma
-     aba — depois de um clique, mudar sozinho seria tirar o
-     controle da mão de quem escolheu.
-     ========================================================= */
-  (function plataforma() {
-    var caixa = $("[data-plat]");
-    if (!caixa) return;
-    var abas    = $$(".plat__aba", caixa);
-    var telas   = $$(".plat__vista img", caixa);
-    var vista   = $(".plat__vista", caixa);
-    var painel  = $(".plat__tela", caixa);
-    var legenda = $(".plat__legenda", caixa);
-    var CICLO = 6000;
-    var atual = 0, timer = null, escolheu = false, visivel = false, sobre = false;
-
-    caixa.style.setProperty("--ciclo", CICLO + "ms");
-
-    function mostrar(i) {
-      atual = (i + abas.length) % abas.length;
-      abas.forEach(function (a, k) {
-        var on = k === atual;
-        a.classList.toggle("is-on", on);
-        a.setAttribute("aria-selected", on ? "true" : "false");
-        a.tabIndex = on ? 0 : -1;
-      });
-      telas.forEach(function (t, k) { t.classList.toggle("is-on", k === atual); });
-      if (painel) painel.setAttribute("aria-labelledby", abas[atual].id);
-      if (legenda) {
-        var desc = $(".plat__txt > span", abas[atual]);
-        legenda.textContent = desc ? desc.textContent : "";
-      }
-      /* reinicia a lâmina de luz que acompanha a cortina */
-      vista.classList.remove("is-trocando");
-      void vista.offsetWidth;
-      vista.classList.add("is-trocando");
-    }
-
-    function parar() { clearInterval(timer); timer = null; caixa.classList.remove("is-tocando"); }
-    function tocar() {
-      parar();
-      if (reduced || escolheu || !visivel || sobre) return;
-      /* a barra da aba ativa recomeça junto com o relógio */
-      mostrar(atual);
-      caixa.classList.add("is-tocando");
-      timer = setInterval(function () { mostrar(atual + 1); }, CICLO);
-    }
-
-    abas.forEach(function (aba, k) {
-      aba.addEventListener("click", function () { escolheu = true; parar(); mostrar(k); });
-      aba.addEventListener("keydown", function (e) {
-        var d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1
-              : e.key === "ArrowLeft"  || e.key === "ArrowUp"   ? -1 : 0;
-        if (!d) return;
-        e.preventDefault();
-        escolheu = true; parar();
-        mostrar(k + d);
-        abas[atual].focus();
-      });
-    });
-    caixa.addEventListener("mouseenter", function () { sobre = true; parar(); });
-    caixa.addEventListener("mouseleave", function () { sobre = false; tocar(); });
-
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        visivel = entries[0].isIntersecting;
-        if (visivel) tocar(); else parar();
-      }, { threshold: 0.35 }).observe(caixa);
-    }
-
-    if (legenda) {
-      var d0 = $(".plat__txt > span", abas[0]);
-      legenda.textContent = d0 ? d0.textContent : "";
-    }
-  })();
-
-  /* =========================================================
-     7 · ATMOSFERA
+     6 · ATMOSFERA
      ========================================================= */
 
   /* ─── estilhaços da colisão curta ──────────────────────────
@@ -490,7 +412,7 @@
   }
 
   /* ─── brilho seguindo o cursor ─── */
-  $$(".item, .extra").forEach(function (el) {
+  $$(".item").forEach(function (el) {
     el.addEventListener("mousemove", function (e) {
       var r = el.getBoundingClientRect();
       el.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");

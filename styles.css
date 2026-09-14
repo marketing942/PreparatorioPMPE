@@ -8,10 +8,9 @@
 
    O que é desta página:
      · a ABERTURA — o leão do CPPEM e o brasão da PMPE batem
-       no meio da tela, e é da batida que nasce o nome do
-       curso. Toca uma vez por sessão.
+       no meio da tela, e é da batida que nasce o nome da
+       preparatório. Toca uma vez por sessão.
      · a seção do CONCURSO sobre a foto da tropa
-     · a VITRINE DA PLATAFORMA com os prints reais
      · a GALERIA de aprovados
      · o bloco de PREÇO com a moldura de luz correndo
 
@@ -1022,9 +1021,9 @@ html.is-entrando .hero__tempo { display: block; }
 /* =========================================================
    O QUE VOCÊ RECEBE
    ---------------------------------------------------------
-   Nove itens em lista, não em cards: são um pacote único, lido
-   de cima para baixo. Três colunas fecham em três fileiras
-   exatas — em duas, o nono sobrava sozinho e lia como esquecido.
+   Seis itens em lista, não em cards: são um pacote único, lido
+   de cima para baixo. Seis fecha exato em três colunas (duas
+   fileiras) e em duas colunas (três fileiras) — nada sobra sozinho.
    ========================================================= */
 .entrega { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .item {
@@ -1061,164 +1060,6 @@ html.is-entrando .hero__tempo { display: block; }
   letter-spacing: .4px; color: var(--text); line-height: 1.25;
 }
 .item__txt > span { display: block; margin-top: 5px; color: var(--text-dim); font-size: 14px; line-height: 1.52; }
-
-.extras {
-  position: relative; margin-top: 26px; padding: 38px 34px;
-  background: linear-gradient(180deg, rgba(29,24,15,.9), rgba(15,14,12,.94));
-  box-shadow: inset 0 0 0 1px var(--border-active);
-  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
-}
-.extras::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(600px 300px at 50% 0%, rgba(175,146,86,.1), transparent 70%);
-}
-.extras__head { position: relative; text-align: center; margin-bottom: 28px; }
-.extras__head h3 {
-  font-family: var(--font-title); font-size: clamp(22px, 3.2vw, 32px); font-weight: 800;
-  letter-spacing: 1px; text-transform: uppercase; color: var(--text); margin-top: 12px;
-}
-.extras__head p { margin-top: 10px; color: var(--text-dim); font-size: 15.5px; }
-.extras__grid { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-.extra {
-  position: relative; padding: 22px 18px; text-align: center; isolation: isolate;
-  background: rgba(10,10,11,.6); box-shadow: inset 0 0 0 1px var(--border);
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-  transition: transform var(--t), box-shadow var(--t);
-}
-.extra::before {
-  content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0;
-  background: radial-gradient(220px 180px at var(--mx, 50%) var(--my, 50%), rgba(175,146,86,.16), transparent 70%);
-  clip-path: inherit; transition: opacity var(--t);
-}
-.extra:hover::before { opacity: 1; }
-.extra:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px var(--border-active); }
-/* display:block dá tamanho ao ícone: é um <span>, e caixa inline ignora
-   width/height — o SVG pedindo 100% desenharia do tamanho do card */
-.extra__ico { display: block; width: 38px; height: 38px; margin: 0 auto 14px; color: var(--gold); }
-.extra__ico svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.extra b {
-  display: block; font-family: var(--font-title); font-size: 15.5px; font-weight: 800;
-  letter-spacing: .6px; color: var(--gold-light); line-height: 1.25;
-}
-.extra__txt { display: block; margin-top: 7px; color: var(--text-mute); font-size: 13.5px; line-height: 1.5; }
-
-/* =========================================================
-   A PLATAFORMA — vitrine com os prints reais
-   ---------------------------------------------------------
-   Abas à esquerda, tela à direita numa moldura de navegador.
-   Troca sozinha enquanto está na tela (a barra de ouro na aba
-   ativa mostra quanto falta), para quando o cursor pousa e
-   deixa de trocar de vez quando a pessoa escolhe uma aba —
-   depois de um clique, mudar sozinho seria tirar o controle
-   da mão de quem escolheu.
-   ========================================================= */
-.plat { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 28px; align-items: center; --ciclo: 6s; }
-.plat__abas { display: grid; gap: 10px; }
-.plat__aba {
-  position: relative; display: flex; align-items: flex-start; gap: 14px; width: 100%;
-  padding: 16px 18px 18px; text-align: left; cursor: pointer; overflow: hidden;
-  background: linear-gradient(180deg, rgba(24,24,30,.7), rgba(14,14,18,.8));
-  box-shadow: inset 0 0 0 1px var(--border-soft);
-  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
-  transition: box-shadow var(--t), background var(--t), transform var(--t);
-}
-.plat__aba:hover { box-shadow: inset 0 0 0 1px var(--border); }
-.plat__aba.is-on {
-  background: linear-gradient(180deg, rgba(175,146,86,.14), rgba(14,14,18,.85));
-  box-shadow: inset 0 0 0 1px var(--border-active);
-  transform: translateX(6px);
-}
-.plat__num {
-  flex-shrink: 0; width: 34px; height: 38px; display: grid; place-items: center;
-  font-family: var(--font-title); font-size: 13px; font-weight: 800; color: var(--gold);
-  background: rgba(175,146,86,.08); box-shadow: inset 0 0 0 1px var(--border);
-  clip-path: var(--hexr);
-  transition: background var(--t), color var(--t);
-}
-.plat__aba.is-on .plat__num { background: linear-gradient(168deg, var(--gold-pale), var(--gold) 55%, var(--gold-dark)); color: #0B0A08; }
-.plat__txt { display: block; min-width: 0; }
-.plat__txt b {
-  display: block; font-family: var(--font-title); font-size: 15px; font-weight: 800;
-  letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-dim);
-  transition: color var(--t);
-}
-.plat__aba.is-on .plat__txt b { color: var(--gold-light); }
-.plat__txt > span {
-  display: block; margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--text-mute);
-}
-.plat__aba.is-on .plat__txt > span { color: var(--text-dim); }
-.plat__barra {
-  position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 2px;
-  transform-origin: left; transform: scaleX(0);
-  background: linear-gradient(90deg, var(--gold-dark), var(--gold-pale));
-}
-.plat.is-tocando .plat__aba.is-on .plat__barra { animation: barra-aba var(--ciclo) linear forwards; }
-@keyframes barra-aba { to { transform: scaleX(1); } }
-
-.plat__tela {
-  position: relative;
-  background: linear-gradient(180deg, #17171D, #0E0E12);
-  box-shadow: inset 0 0 0 1px var(--border-active), 0 40px 80px -40px rgba(0,0,0,.95);
-  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
-  padding: 1px;
-}
-/* o halo por trás da tela */
-.plat::before {
-  content: ''; position: absolute; pointer-events: none; z-index: -1;
-  /* nunca inset negativo nas laterais: o halo passaria da borda da tela e
-     alargaria a página inteira no celular */
-  inset: 10% 0 -6% 30%;
-  background: radial-gradient(closest-side, rgba(175,146,86,.14), transparent);
-}
-.plat { position: relative; isolation: isolate; }
-.plat__topo {
-  display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 16px;
-  border-bottom: 1px solid var(--border-soft);
-}
-.plat__topo i { width: 9px; height: 9px; border-radius: 50%; background: rgba(175,146,86,.28); }
-.plat__topo i:first-child { background: var(--ember); opacity: .75; }
-.plat__topo span {
-  margin-left: 12px; font-size: 10.5px; font-weight: 700; letter-spacing: 2.6px;
-  text-transform: uppercase; color: var(--text-mute);
-}
-.plat__vista { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #0B0B0D; }
-/* A tela nova entra por uma cortina da esquerda para a direita (clip-path),
-   e não por fade: um print sobre o outro em meia opacidade vira sopa de
-   texto por meio segundo. */
-.plat__vista img {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: left top;
-  clip-path: inset(0 100% 0 0); opacity: 0;
-  transition: clip-path .9s var(--freada), opacity .2s linear;
-}
-.plat__vista img.is-on { clip-path: inset(0 0 0 0); opacity: 1; z-index: 1; }
-/* a lâmina de luz que acompanha a cortina */
-.plat__scan {
-  position: absolute; top: 0; bottom: 0; left: 0; z-index: 2; display: block; width: 3px;
-  background: linear-gradient(180deg, transparent, var(--gold-pale), transparent);
-  box-shadow: 0 0 22px 4px rgba(240,220,176,.5); opacity: 0; pointer-events: none;
-}
-.plat__vista.is-trocando .plat__scan { animation: plat-scan .9s var(--freada) forwards; }
-@keyframes plat-scan {
-  0%   { opacity: 1; left: 0; }
-  85%  { opacity: 1; }
-  100% { opacity: 0; left: 100%; }
-}
-/* vinheta leve na base: puxa o print para dentro da moldura */
-.plat__vista::after {
-  content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
-  background: linear-gradient(180deg, transparent 70%, rgba(10,10,11,.55));
-}
-.plat__legenda { display: none; }
-.plat__rodape {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 36px;
-}
-.plat__rodape span {
-  display: inline-flex; align-items: center; height: 34px; padding: 0 14px;
-  background: rgba(175,146,86,.07); box-shadow: inset 0 0 0 1px var(--border);
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-  font-size: 11.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
-}
 
 /* =========================================================
    O PROFESSOR
@@ -1739,10 +1580,8 @@ html.is-entrando .hero__tempo { display: block; }
 @media (max-width: 1080px) {
   .nav { display: none; }
   .header .btn { margin-left: auto; }
-  .extras__grid { grid-template-columns: repeat(2, 1fr); }
   .footer__inner { grid-template-columns: 1fr 1fr; }
   .entrega { grid-template-columns: repeat(2, 1fr); }
-  .entrega .item:last-child { grid-column: 1 / -1; }
   .vs tbody th, .vs td, .vs__cab { padding-inline: 16px; }
   .oferta { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; }
   /* no celular a caixa do preço vem PRIMEIRO: quem toca em "Investimento"
@@ -1752,38 +1591,12 @@ html.is-entrando .hero__tempo { display: block; }
 
 @media (max-width: 920px) {
   .entrega { grid-template-columns: 1fr; }
-  .entrega .item:last-child { grid-column: auto; }
   .concurso { grid-template-columns: 1fr; max-width: 620px; margin-inline: auto; }
   .duo { grid-template-columns: 1fr; gap: 40px; }
   .duo__foto { max-width: 400px; margin-inline: auto; }
   .duo__texto { text-align: center; }
   .duo__texto .eyebrow { justify-content: center; }
   .section__title--left::after { margin-inline: auto; }
-
-  /* ─── A VITRINE VIRA COLUNA ───────────────────────────────
-     As abas viram uma fileira de chips com rolagem lateral (só o título), e
-     a descrição da tela ativa desce para baixo do print — espremida ao lado
-     de um print estreito ela não caberia. O print ganha proporção 4:3 e fica
-     ancorado no canto superior esquerdo: mostra menos da tela, mas o que
-     mostra dá para LER. */
-  .plat { grid-template-columns: 1fr; gap: 16px; }
-  .plat__abas {
-    grid-auto-flow: column; grid-auto-columns: max-content; gap: 8px;
-    overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
-    margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px;
-  }
-  .plat__abas::-webkit-scrollbar { display: none; }
-  .plat__aba { align-items: center; padding: 10px 14px 12px; gap: 10px; }
-  .plat__aba.is-on { transform: none; }
-  .plat__num { width: 28px; height: 32px; font-size: 11.5px; }
-  .plat__txt b { font-size: 13px; white-space: nowrap; }
-  .plat__txt > span { display: none; }
-  .plat__vista { aspect-ratio: 4 / 3; }
-  .plat__legenda {
-    display: block; min-height: 3.2em; text-align: center;
-    font-size: 15px; line-height: 1.55; color: var(--text-dim);
-  }
-  .plat::before { inset: 20% 0 0; }
 }
 
 @media (max-width: 720px) {
@@ -1812,8 +1625,6 @@ html.is-entrando .hero__tempo { display: block; }
   .btn--lg { height: 58px; padding: 0 26px; font-size: 13.5px; letter-spacing: 2px; }
 
   .etapa { padding: 18px; gap: 14px; }
-  .extras { padding: 28px 18px; }
-  .extras__grid { grid-template-columns: 1fr; }
   .section::before, .final__marca { background-size: auto 420px; }
 
   .stats { gap: 8px; }
