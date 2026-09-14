@@ -10,6 +10,7 @@
      · a ABERTURA — o leão do CPPEM e o brasão da PMPE batem
        no meio da tela, e é da batida que nasce o nome da
        preparatório. Toca uma vez por sessão.
+     · a VITRINE DA PLATAFORMA com a materialização dos prints
      · a seção do CONCURSO sobre a foto da tropa
      · a GALERIA de aprovados
      · o bloco de PREÇO com a moldura de luz correndo
@@ -1060,6 +1061,351 @@ html.is-entrando .hero__tempo { display: block; }
   letter-spacing: .4px; color: var(--text); line-height: 1.25;
 }
 .item__txt > span { display: block; margin-top: 5px; color: var(--text-dim); font-size: 14px; line-height: 1.52; }
+
+/* =========================================================
+   A PLATAFORMA — vitrine com os prints reais
+   ---------------------------------------------------------
+   Desktop: abas à esquerda, tela à direita numa moldura de
+   navegador com o aro de luz correndo (o mesmo do preço).
+   Celular (92% do tráfego): chips no alto, tela em cheio, setas
+   e pontos embaixo, e a legenda da tela ativa por último.
+
+   Troca sozinha enquanto está na tela (a barra de ouro mostra
+   quanto falta), para com o cursor em cima ou o dedo na tela e
+   deixa de trocar de vez quando a pessoa escolhe — depois de
+   escolher, mudar sozinho seria tirar o controle da mão dela.
+
+   A troca é uma MATERIALIZAÇÃO, não um corte: o print novo abre
+   por uma cortina diagonal, chega desfocado, estourado de luz e
+   ampliado, e assenta nítido enquanto uma grade de ouro se apaga
+   por cima e a mira fecha nos cantos. O antigo recua e escurece
+   por baixo — nunca um print sobre o outro em meia opacidade,
+   que vira sopa de texto.
+   ========================================================= */
+.plat {
+  --ciclo: 6000ms;
+  position: relative; isolation: isolate;
+  display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 28px; align-items: center;
+}
+/* o halo por trás da tela — nunca inset negativo nas laterais: o halo
+   passaria da borda e alargaria a página inteira no celular */
+.plat::before {
+  content: ''; position: absolute; pointer-events: none; z-index: -1;
+  inset: 10% 0 -6% 30%;
+  background: radial-gradient(closest-side, rgba(175,146,86,.16), transparent);
+  animation: halo-respira 6s ease-in-out infinite;
+}
+
+/* ─── ABAS ─────────────────────────────────────────────── */
+.plat__abas { position: relative; display: grid; gap: 10px; }
+.plat__aba {
+  position: relative; display: flex; align-items: flex-start; gap: 14px; width: 100%;
+  padding: 16px 18px 18px; text-align: left; cursor: pointer; overflow: hidden;
+  background: linear-gradient(180deg, rgba(24,24,30,.7), rgba(14,14,18,.8));
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  transition: box-shadow var(--t), background var(--t), transform var(--t);
+  -webkit-tap-highlight-color: transparent;
+}
+.plat__aba:hover { box-shadow: inset 0 0 0 1px var(--border); }
+.plat__aba:focus-visible { outline: 2px solid var(--gold-light); outline-offset: -2px; }
+.plat__aba.is-on {
+  background: linear-gradient(180deg, rgba(175,146,86,.16), rgba(14,14,18,.85));
+  box-shadow: inset 0 0 0 1px var(--border-active);
+  transform: translateX(6px);
+}
+.plat__num {
+  flex-shrink: 0; width: 34px; height: 38px; display: grid; place-items: center;
+  font-family: var(--font-title); font-size: 13px; font-weight: 800; color: var(--gold);
+  background: rgba(175,146,86,.08); box-shadow: inset 0 0 0 1px var(--border);
+  clip-path: var(--hexr);
+  transition: background var(--t), color var(--t);
+}
+.plat__aba.is-on .plat__num { background: linear-gradient(168deg, var(--gold-pale), var(--gold) 55%, var(--gold-dark)); color: #0B0A08; }
+.plat__txt { display: block; min-width: 0; }
+.plat__txt b {
+  display: block; font-family: var(--font-title); font-size: 15px; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-dim);
+  transition: color var(--t);
+}
+.plat__aba.is-on .plat__txt b { color: var(--gold-light); }
+.plat__txt > span { display: block; margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--text-mute); }
+.plat__aba.is-on .plat__txt > span { color: var(--text-dim); }
+.plat__barra, .plat__tempo {
+  position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 2px;
+  transform-origin: left; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-pale));
+  box-shadow: 0 0 10px rgba(240,220,176,.5);
+}
+.plat.is-tocando .plat__aba.is-on .plat__barra.is-correndo,
+.plat.is-tocando .plat__tempo.is-correndo { animation: barra-aba var(--ciclo) linear forwards; }
+@keyframes barra-aba { to { transform: scaleX(1); } }
+
+/* ─── A TELA ───────────────────────────────────────────── */
+.plat__palco { position: relative; min-width: 0; }
+.plat__tela {
+  position: relative; isolation: isolate; overflow: hidden; padding: 1.5px;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+}
+/* o aro de luz correndo — o ::before é bem maior que a tela e gira por trás */
+.plat__tela::before {
+  content: ''; position: absolute; inset: -80%; z-index: -1;
+  background: conic-gradient(from 0deg,
+    rgba(175,146,86,.22) 0 52%, var(--gold) 66%, var(--gold-pale) 75%,
+    var(--gold) 84%, rgba(175,146,86,.22) 96% 100%);
+  animation: aro-gira 8s linear infinite;
+}
+.plat__topo {
+  display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 18px 0 16px;
+  background: linear-gradient(180deg, #17171D, #111116);
+  border-bottom: 1px solid var(--border-soft);
+  clip-path: polygon(0 0, calc(100% - 21px) 0, 100% 21px, 100% 100%, 0 100%);
+}
+.plat__topo i { width: 9px; height: 9px; border-radius: 50%; background: rgba(175,146,86,.28); }
+.plat__topo i:first-child { background: var(--ember); opacity: .8; }
+.plat__topo span {
+  margin-left: 12px; font-size: 10.5px; font-weight: 700; letter-spacing: 2.6px;
+  text-transform: uppercase; color: var(--text-mute); white-space: nowrap;
+}
+.plat__contador {
+  margin-left: auto; font-style: normal; font-family: var(--font-title);
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--text-mute);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.plat__contador b { color: var(--gold-light); }
+
+.plat__vista {
+  position: relative; display: block; width: 100%; aspect-ratio: 16 / 9;
+  overflow: hidden; background: #0B0B0D; cursor: zoom-in;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 21px 100%, 0 calc(100% - 21px));
+  touch-action: pan-y; -webkit-tap-highlight-color: transparent;
+}
+.plat__vista:focus-visible { outline: 2px solid var(--gold-light); outline-offset: -4px; }
+.plat__vista img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: left top;
+  opacity: 0; visibility: hidden;
+}
+.plat__vista img.is-on  { opacity: 1; visibility: visible; z-index: 2; animation: plat-entra 1.25s var(--freada) both; }
+.plat__vista img.is-sai { opacity: 1; visibility: visible; z-index: 1; animation: plat-sai 1.1s var(--ease) both; }
+
+/* a cortina anda na diagonal (o polígono tem sempre 4 pontos para o
+   navegador conseguir interpolar) e termina antes do foco assentar */
+@keyframes plat-entra {
+  0% {
+    clip-path: polygon(0 0, 0% 0, -30% 100%, 0 100%);
+    filter: blur(18px) brightness(2.4) saturate(0);
+    transform: scale(1.12);
+  }
+  52% {
+    clip-path: polygon(0 0, 130% 0, 100% 100%, 0 100%);
+    filter: blur(7px) brightness(1.4) saturate(.45);
+  }
+  100% {
+    clip-path: polygon(0 0, 130% 0, 100% 100%, 0 100%);
+    filter: blur(0) brightness(1) saturate(1);
+    transform: scale(1);
+  }
+}
+@keyframes plat-sai {
+  to { transform: scale(.93); filter: brightness(.3) blur(5px); }
+}
+
+/* vinheta leve na base: puxa o print para dentro da moldura */
+.plat__vista::after {
+  content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(180deg, transparent 68%, rgba(10,10,11,.6));
+}
+
+/* a grade de ouro que "imprime" o print e se apaga */
+.plat__grade {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: 0;
+  background-image:
+    linear-gradient(rgba(240,220,176,.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,220,176,.4) 1px, transparent 1px);
+  background-size: 18px 18px;
+  mix-blend-mode: screen;
+}
+.plat__vista.is-trocando .plat__grade { animation: plat-grade 1.25s var(--ease) forwards; }
+@keyframes plat-grade {
+  0%   { opacity: 0;  background-size: 18px 18px; }
+  14%  { opacity: .9; }
+  100% { opacity: 0;  background-size: 46px 46px; }
+}
+
+/* a lâmina de luz, inclinada como a cortina, correndo junto da borda dela */
+.plat__scan {
+  position: absolute; top: -10%; bottom: -10%; left: -20%; z-index: 5; width: 110px;
+  pointer-events: none; opacity: 0; transform: skewX(-17deg);
+  background: linear-gradient(90deg, transparent, rgba(240,220,176,.16) 38%,
+    rgba(255,246,222,.95) 50%, rgba(240,220,176,.16) 62%, transparent);
+  mix-blend-mode: screen;
+}
+.plat__vista.is-trocando .plat__scan { animation: plat-scan .68s var(--freada) forwards; }
+@keyframes plat-scan {
+  0%   { opacity: 1; left: -20%; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; left: 118%; }
+}
+
+/* a mira: quatro cantos que fecham sobre o print quando ele assenta */
+.plat__mira {
+  --c: var(--gold-light); --l: 20px; --e: 2px;
+  position: absolute; inset: 14px; z-index: 6; pointer-events: none; opacity: .8;
+  background:
+    linear-gradient(var(--c), var(--c)) left  top    / var(--l) var(--e),
+    linear-gradient(var(--c), var(--c)) left  top    / var(--e) var(--l),
+    linear-gradient(var(--c), var(--c)) right top    / var(--l) var(--e),
+    linear-gradient(var(--c), var(--c)) right top    / var(--e) var(--l),
+    linear-gradient(var(--c), var(--c)) left  bottom / var(--l) var(--e),
+    linear-gradient(var(--c), var(--c)) left  bottom / var(--e) var(--l),
+    linear-gradient(var(--c), var(--c)) right bottom / var(--l) var(--e),
+    linear-gradient(var(--c), var(--c)) right bottom / var(--e) var(--l);
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 6px rgba(240,220,176,.55));
+}
+.plat__vista.is-trocando .plat__mira { animation: plat-mira 1.25s var(--freada) both; }
+@keyframes plat-mira {
+  0%   { inset: 40px; opacity: 0; }
+  35%  { opacity: 1; }
+  100% { inset: 14px; opacity: .8; }
+}
+
+.plat__zoom {
+  position: absolute; right: 16px; bottom: 16px; z-index: 7;
+  display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 13px 0 11px;
+  background: rgba(10,10,11,.72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px var(--border-active);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  font-size: 10.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light);
+  transition: background var(--t), color var(--t);
+}
+.plat__zoom svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.plat__vista:hover .plat__zoom { background: rgba(175,146,86,.3); color: var(--gold-pale); }
+.plat__tempo { z-index: 8; }
+
+/* setas, pontos e legenda são só do celular */
+.plat__nav, .plat__legenda { display: none; }
+
+.plat__rodape { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 36px; }
+.plat__rodape span {
+  display: inline-flex; align-items: center; height: 34px; padding: 0 14px;
+  background: rgba(175,146,86,.07); box-shadow: inset 0 0 0 1px var(--border);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  font-size: 11.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
+}
+
+/* ─── O ZOOM ───────────────────────────────────────────── */
+.plat-zoom {
+  position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0; color: var(--text);
+  background: rgba(6,6,8,.97);
+}
+.plat-zoom[open] { display: flex; flex-direction: column; animation: plat-zoom-abre .4s var(--freada) both; }
+.plat-zoom::backdrop { background: rgba(0,0,0,.7); }
+@keyframes plat-zoom-abre { from { opacity: 0; transform: scale(.96); } }
+html:has(.plat-zoom[open]) { overflow: hidden; }
+.plat-zoom__barra {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: max(10px, env(safe-area-inset-top)) 16px 10px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.plat-zoom__barra span {
+  font-family: var(--font-title); font-size: 14px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light);
+}
+.plat-zoom__fechar {
+  flex-shrink: 0; width: 46px; height: 46px; display: grid; place-items: center; cursor: pointer;
+  background: rgba(175,146,86,.1); box-shadow: inset 0 0 0 1px var(--border-active); color: var(--gold-pale);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.plat-zoom__fechar svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.plat-zoom__rolo {
+  flex: 1; min-height: 0; display: flex; overflow: auto;
+  overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+}
+/* margin:auto centraliza quando cabe e não corta a borda quando não cabe */
+.plat-zoom__rolo img { display: block; margin: auto; width: max(100%, 1180px); max-width: none; height: auto; }
+.plat-zoom__dica {
+  padding: 10px 16px max(14px, env(safe-area-inset-bottom)); text-align: center;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--text-mute);
+}
+@media (min-width: 1181px) { .plat-zoom__dica { display: none; } }
+
+/* ─── A VITRINE NO CELULAR ─────────────────────────────── */
+@media (max-width: 920px) {
+  .plat { grid-template-columns: 1fr; gap: 14px; }
+  .plat::before { inset: 16% 0 8%; }
+
+  /* chips com rolagem lateral e encaixe; o script centraliza o ativo */
+  .plat__abas {
+    grid-auto-flow: column; grid-auto-columns: max-content; gap: 8px;
+    overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
+    margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px;
+    scroll-snap-type: x proximity;
+  }
+  .plat__abas::-webkit-scrollbar { display: none; }
+  .plat__aba { align-items: center; padding: 9px 14px 11px 10px; gap: 9px; scroll-snap-align: start; }
+  .plat__aba.is-on { transform: none; }
+  .plat__num { width: 26px; height: 30px; font-size: 11px; }
+  .plat__txt b { font-size: 12.5px; letter-spacing: 1px; white-space: nowrap; }
+  .plat__txt > span { display: none; }
+
+  .plat__topo { height: 32px; padding: 0 16px 0 12px; gap: 6px; }
+  .plat__topo i { width: 7px; height: 7px; }
+  .plat__topo span { margin-left: 6px; font-size: 9px; letter-spacing: 2px; }
+  .plat__contador { font-size: 10px; }
+
+  /* 4:3 mostra texto que dá para LER; e o print desliza devagar de uma
+     ponta à outra para mostrar a tela inteira mesmo cortado */
+  .plat__vista { aspect-ratio: 4 / 3; }
+  .plat__vista img.is-on {
+    animation:
+      plat-entra 1.25s var(--freada) both,
+      plat-pan 9s 1.25s ease-in-out infinite alternate;
+  }
+  .plat__mira { inset: 10px; --l: 15px; }
+  @keyframes plat-mira {
+    0%   { inset: 30px; opacity: 0; }
+    35%  { opacity: 1; }
+    100% { inset: 10px; opacity: .8; }
+  }
+  .plat__zoom { right: 12px; bottom: 12px; height: 30px; font-size: 9.5px; letter-spacing: 1.6px; }
+
+  /* setas agrupadas no centro, e não nas pontas: a ponta direita é onde
+     mora o botão flutuante do WhatsApp, que cobria a seta */
+  .plat__nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 16px; }
+  .plat__seta {
+    flex-shrink: 0; width: 48px; height: 48px; display: grid; place-items: center; cursor: pointer;
+    background: rgba(175,146,86,.08); box-shadow: inset 0 0 0 1px var(--border-active);
+    color: var(--gold-light); clip-path: var(--hexr);
+    transition: transform .15s var(--ease), background var(--t);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .plat__seta:active { transform: scale(.9); background: rgba(175,146,86,.24); }
+  .plat__seta svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .plat__pontos { display: flex; align-items: center; gap: 7px; }
+  .plat__pontos i {
+    display: block; width: 14px; height: 4px; background: rgba(175,146,86,.25);
+    transition: width .45s var(--freada), background .45s var(--ease);
+  }
+  .plat__pontos i.is-on { width: 38px; background: linear-gradient(90deg, var(--gold-dark), var(--gold-pale)); box-shadow: 0 0 10px rgba(240,220,176,.45); }
+
+  .plat__legenda { display: block; margin-top: 14px; min-height: 6.2em; text-align: center; }
+  .plat__legenda b {
+    display: block; font-family: var(--font-title); font-size: 16px; font-weight: 800;
+    letter-spacing: 1.6px; text-transform: uppercase; color: var(--gold-light);
+  }
+  .plat__legenda span { display: block; margin-top: 5px; font-size: 15px; line-height: 1.55; color: var(--text-dim); }
+  .plat__legenda.is-trocando b, .plat__legenda.is-trocando span { animation: plat-legenda .55s var(--freada) both; }
+  .plat__legenda.is-trocando span { animation-delay: .08s; }
+
+  .plat__rodape { gap: 8px; margin-top: 26px; }
+  .plat__rodape span { height: 30px; padding: 0 11px; font-size: 10px; letter-spacing: 1.6px; }
+}
+@keyframes plat-pan { from { object-position: 0% 0; } to { object-position: 100% 0; } }
+@keyframes plat-legenda { from { opacity: 0; transform: translateY(10px); } }
 
 /* =========================================================
    O PROFESSOR

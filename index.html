@@ -117,6 +117,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <nav class="nav" aria-label="Seções da página">
       <a href="#concurso">O concurso</a>
       <a href="#recebe">O que você recebe</a>
+      <a href="#plataforma">Plataforma</a>
       <a href="#professor">Professor</a>
       <a href="#preco">Investimento</a>
       <a href="#faq">Dúvidas</a>
@@ -359,6 +360,124 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </section>
+
+<!-- =========================================================
+     A PLATAFORMA — prints reais, numa moldura de navegador
+     ---------------------------------------------------------
+     As abas são <button role="tab">; a tela é um painel só, e o que troca é
+     qual <img> está visível. Cada print entra se MATERIALIZANDO (cortina
+     diagonal, desfoque que assenta, grade de luz que se apaga) — ver o bloco
+     da plataforma no styles.css.
+     No celular (92% do tráfego) as abas viram chips, a tela aceita arrastar
+     para os lados, o print desliza devagar para mostrar a tela inteira, a
+     legenda desce para baixo dele e um toque abre o print no zoom.
+     ========================================================= -->
+<section class="section section--alt" id="plataforma" aria-labelledby="plat-title">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Por dentro da plataforma</span>
+      <h2 class="section__title" id="plat-title">A sua preparação inteira <span class="gold">num lugar só</span></h2>
+      <p class="section__lead">
+        Sala de aula com anotações e resumo por IA ao lado do vídeo, cronograma que se refaz sozinho,
+        arsenal de aulas e simulados e o seu rendimento matéria por matéria — tudo no mesmo painel.
+      </p>
+    </div>
+
+    <div class="plat" data-plat>
+      <div class="plat__abas" role="tablist" aria-label="Telas da plataforma">
+        <button type="button" class="plat__aba is-on" role="tab" aria-selected="true" aria-controls="plat-tela" id="plat-aba-0">
+          <span class="plat__num">01</span>
+          <span class="plat__txt">
+            <b>Sala de aula</b>
+            <span>A videoaula e, ao lado dela, anotações, PDFs, resumo com IA, flashcards e mapa mental — com cronômetro de foco.</span>
+          </span>
+          <i class="plat__barra" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="plat__aba" role="tab" aria-selected="false" aria-controls="plat-tela" id="plat-aba-1" tabindex="-1">
+          <span class="plat__num">02</span>
+          <span class="plat__txt">
+            <b>Missões semanais</b>
+            <span>A semana inteira planejada. Marque o que fez e o sistema redistribui revisões, questões e simulados sozinho.</span>
+          </span>
+          <i class="plat__barra" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="plat__aba" role="tab" aria-selected="false" aria-controls="plat-tela" id="plat-aba-2" tabindex="-1">
+          <span class="plat__num">03</span>
+          <span class="plat__txt">
+            <b>Arsenal de fogo</b>
+            <span>Aulas, PDFs e simulados organizados por matéria, para usar a qualquer hora, fora do cronograma.</span>
+          </span>
+          <i class="plat__barra" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="plat__aba" role="tab" aria-selected="false" aria-controls="plat-tela" id="plat-aba-3" tabindex="-1">
+          <span class="plat__num">04</span>
+          <span class="plat__txt">
+            <b>Resumos com IA</b>
+            <span>Cadernos por matéria e resumos gerados por IA, com os pontos de atenção da prova destacados.</span>
+          </span>
+          <i class="plat__barra" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="plat__palco">
+        <div class="plat__tela" id="plat-tela" role="tabpanel" aria-labelledby="plat-aba-0">
+          <div class="plat__topo" aria-hidden="true">
+            <i></i><i></i><i></i><span>Plataforma CPPEM</span>
+            <em class="plat__contador"><b>01</b> / 04</em>
+          </div>
+          <button type="button" class="plat__vista" aria-label="Ampliar a tela da plataforma">
+            <img class="is-on" src="public/plataforma/saladeaula.webp" width="1919" height="932" loading="lazy" decoding="async"
+                 alt="Tela Sala de Aula: videoaula com painel de anotações, PDFs, resumo com IA, flashcards e mapa mental">
+            <img src="public/plataforma/missoes.webp" width="1918" height="741" loading="lazy" decoding="async"
+                 alt="Tela Missões Semanais: cronograma da semana com aulas, questões e revisões por dia">
+            <img src="public/plataforma/arsenal.webp" width="1918" height="698" loading="lazy" decoding="async"
+                 alt="Tela Arsenal de Fogo: biblioteca de matérias com aulas, PDFs e simulados">
+            <img src="public/plataforma/resumo-ia.webp" width="1918" height="787" loading="lazy" decoding="async"
+                 alt="Tela Resumos e Mapas Mentais: resumo gerado por IA com pontos de atenção da prova">
+            <i class="plat__grade" aria-hidden="true"></i>
+            <i class="plat__scan" aria-hidden="true"></i>
+            <i class="plat__mira" aria-hidden="true"></i>
+            <span class="plat__zoom" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg>
+              Ampliar
+            </span>
+            <i class="plat__tempo" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="plat__nav">
+          <button type="button" class="plat__seta" data-dir="-1" aria-label="Tela anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <span class="plat__pontos" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></span>
+          <button type="button" class="plat__seta" data-dir="1" aria-label="Próxima tela">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <p class="plat__legenda" aria-hidden="true"><b></b><span></span></p>
+      </div>
+    </div>
+
+    <div class="plat__rodape" aria-label="Outras ferramentas da plataforma">
+      <span>Missões diárias</span><span>Plano de combate</span><span>Mapas mentais</span>
+      <span>Rendimento operacional</span><span>TAF / Físico</span>
+    </div>
+  </div>
+</section>
+
+<!-- O print inteiro, ampliado. No celular a imagem fica mais larga que a
+     tela de propósito: arrastando para o lado dá para LER cada painel. -->
+<dialog class="plat-zoom" id="platZoom" aria-labelledby="platZoomTitulo">
+  <div class="plat-zoom__barra">
+    <span id="platZoomTitulo">Sala de aula</span>
+    <button type="button" class="plat-zoom__fechar" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="plat-zoom__rolo"><img alt="" decoding="async"></div>
+  <p class="plat-zoom__dica">Arraste para ver a tela inteira</p>
+</dialog>
 
 <!-- ================= O PROFESSOR ================= -->
 <section class="section" id="professor" aria-labelledby="prof-title">
@@ -744,6 +863,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h4>Nesta página</h4>
       <a href="#concurso">O concurso</a>
       <a href="#recebe">O que você recebe</a>
+      <a href="#plataforma">Plataforma</a>
       <a href="#preco">Investimento</a>
     </nav>
 

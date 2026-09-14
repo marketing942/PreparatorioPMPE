@@ -6,7 +6,8 @@
      3. ABERTURA    a colisão de entrada e a saída dela
      4. PÁGINA      header, progresso, parallax, dock
      5. REVEAL      entrada ao rolar + contagem dos números
-     6. ATMOSFERA   brasas, faíscas, estilhaços, brilho no cursor
+     6. PLATAFORMA  a vitrine de prints
+     7. ATMOSFERA   brasas, faíscas, estilhaços, brilho no cursor
    ========================================================= */
 (function () {
   "use strict";
@@ -293,7 +294,7 @@
      e a ficha da hero contaria enquanto ninguém olhava.
      ========================================================= */
   var alvos = $$(
-    ".section__head, .item, .vaga, .etapas, " +
+    ".section__head, .item, .vaga, .etapas, .plat, .plat__rodape, " +
     ".duo__foto, .duo__texto, .galeria, .vs-wrap, .oferta__resumo, .preco__moldura, .faq__item, .final__inner"
   );
 
@@ -361,7 +362,204 @@
   if (!comAbertura) ligarObservadores();
 
   /* =========================================================
-     6 · ATMOSFERA
+     6 · A VITRINE DA PLATAFORMA
+     ---------------------------------------------------------
+     Troca sozinha enquanto está na tela; pausa com o cursor em
+     cima ou o dedo na tela; e deixa de trocar de vez quando a
+     pessoa escolhe (aba, seta ou arrasto) — depois de escolher,
+     mudar sozinho seria tirar o controle da mão dela.
+
+     A materialização do print é CSS: aqui só se reinicia a
+     classe que dispara cada peça (is-on na imagem, is-trocando
+     na vista e na legenda, is-correndo nas barras de tempo).
+     Tirar e pôr a classe no mesmo quadro não reinicia nada — o
+     `void offsetWidth` no meio força o navegador a ver a troca.
+     ========================================================= */
+  (function plataforma() {
+    var caixa = $("[data-plat]");
+    if (!caixa) return;
+    var abas     = $$(".plat__aba", caixa);
+    var telas    = $$(".plat__vista img", caixa);
+    var vista    = $(".plat__vista", caixa);
+    var painel   = $(".plat__tela", caixa);
+    var trilho   = $(".plat__abas", caixa);
+    var legenda  = $(".plat__legenda", caixa);
+    var contador = $(".plat__contador b", caixa);
+    var pontos   = $$(".plat__pontos i", caixa);
+    var tempo    = $(".plat__tempo", caixa);
+    var zoom     = document.getElementById("platZoom");
+    var CICLO = 6000;
+    var atual = 0, timer = null, escolheu = false, visivel = false, sobre = false, revelou = false;
+
+    caixa.style.setProperty("--ciclo", CICLO + "ms");
+
+    function reiniciar(el, classe) {
+      if (!el) return;
+      el.classList.remove(classe);
+      void el.offsetWidth;
+      el.classList.add(classe);
+    }
+    function titulo(i) { var b = $(".plat__txt b", abas[i]); return b ? b.textContent : ""; }
+    function descricao(i) { var s = $(".plat__txt > span", abas[i]); return s ? s.textContent : ""; }
+
+    function escreverLegenda() {
+      if (!legenda) return;
+      $("b", legenda).textContent = titulo(atual);
+      $("span", legenda).textContent = descricao(atual);
+    }
+
+    /* as barras de tempo recomeçam junto com o relógio */
+    function correrTempo() {
+      $$(".plat__barra", caixa).forEach(function (b) { b.classList.remove("is-correndo"); });
+      reiniciar($(".plat__barra", abas[atual]), "is-correndo");
+      reiniciar(tempo, "is-correndo");
+    }
+
+    function mostrar(i) {
+      var antes = atual;
+      atual = (i + abas.length) % abas.length;
+
+      abas.forEach(function (a, k) {
+        var on = k === atual;
+        a.classList.toggle("is-on", on);
+        a.setAttribute("aria-selected", on ? "true" : "false");
+        a.tabIndex = on ? 0 : -1;
+      });
+      pontos.forEach(function (p, k) { p.classList.toggle("is-on", k === atual); });
+      if (contador) contador.textContent = ("0" + (atual + 1)).slice(-2);
+      if (painel) painel.setAttribute("aria-labelledby", abas[atual].id);
+
+      /* o print que sai recua por baixo; o que entra se materializa por cima */
+      telas.forEach(function (t, k) {
+        t.classList.remove("is-sai");
+        if (k !== atual) t.classList.remove("is-on");
+        if (k === antes && antes !== atual) t.classList.add("is-sai");
+      });
+      reiniciar(telas[atual], "is-on");
+      reiniciar(vista, "is-trocando");
+
+      escreverLegenda();
+      reiniciar(legenda, "is-trocando");
+
+      /* no celular, o chip ativo desliza para o meio do trilho — rolando só
+         o trilho, nunca a página */
+      if (trilho && trilho.scrollWidth > trilho.clientWidth + 4) {
+        var a = abas[atual];
+        var alvo = a.offsetLeft - (trilho.clientWidth - a.offsetWidth) / 2;
+        try { trilho.scrollTo({ left: alvo, behavior: reduced ? "auto" : "smooth" }); }
+        catch (e) { trilho.scrollLeft = alvo; }
+      }
+      correrTempo();
+    }
+
+    function parar() { clearInterval(timer); timer = null; caixa.classList.remove("is-tocando"); }
+    function tocar() {
+      parar();
+      if (reduced || escolheu || !visivel || sobre || (zoom && zoom.open)) return;
+      caixa.classList.add("is-tocando");
+      correrTempo();
+      timer = setInterval(function () { mostrar(atual + 1); }, CICLO);
+    }
+    function escolher(i) {
+      escolheu = true;
+      parar();
+      mostrar(i);
+      push({ event: "plataforma_tela", pagina: CONFIG.pagina, tela: titulo(atual) });
+    }
+
+    abas.forEach(function (aba, k) {
+      aba.addEventListener("click", function () { if (k !== atual) escolher(k); else { escolheu = true; parar(); } });
+      aba.addEventListener("keydown", function (e) {
+        var d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1
+              : e.key === "ArrowLeft"  || e.key === "ArrowUp"   ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        escolher(atual + d);
+        abas[atual].focus();
+      });
+    });
+    $$(".plat__seta", caixa).forEach(function (seta) {
+      seta.addEventListener("click", function () { escolher(atual + parseInt(seta.getAttribute("data-dir"), 10)); });
+    });
+
+    /* pausa só com MOUSE: no toque o mouseenter emulado nunca tem um
+       mouseleave, e a vitrine pararia para sempre depois do primeiro toque */
+    caixa.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { sobre = true; parar(); } });
+    caixa.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { sobre = false; tocar(); } });
+
+    /* ─── arrastar para os lados ───
+       touch-action: pan-y no CSS deixa a rolagem vertical com o navegador e
+       entrega o gesto horizontal para cá. */
+    var x0 = null, y0 = 0, xFim = 0, arrastou = false, ignorarClique = false;
+    vista.addEventListener("touchstart", function (e) {
+      var p = e.touches[0];
+      x0 = xFim = p.clientX; y0 = p.clientY; arrastou = false;
+      sobre = true; parar();
+    }, { passive: true });
+    vista.addEventListener("touchmove", function (e) {
+      if (x0 === null) return;
+      var p = e.touches[0], dx = p.clientX - x0, dy = p.clientY - y0;
+      xFim = p.clientX;
+      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.2) arrastou = true;
+    }, { passive: true });
+    /* a distância sai do ÚLTIMO touchmove: há aparelhos que entregam o
+       touchend sem changedTouches */
+    function soltar() {
+      sobre = false;
+      if (x0 === null) return;
+      var dx = xFim - x0;
+      x0 = null;
+      if (arrastou && Math.abs(dx) > 40) {
+        ignorarClique = true;
+        setTimeout(function () { ignorarClique = false; }, 450);
+        escolher(atual + (dx < 0 ? 1 : -1));
+      } else {
+        tocar();
+      }
+    }
+    vista.addEventListener("touchend", soltar, { passive: true });
+    vista.addEventListener("touchcancel", soltar, { passive: true });
+
+    /* ─── o zoom ─── */
+    function abrirZoom() {
+      if (!zoom || typeof zoom.showModal !== "function") return;
+      var img = $("img", zoom), t = telas[atual];
+      img.src = t.currentSrc || t.src;
+      img.alt = t.alt;
+      $(".plat-zoom__barra span", zoom).textContent = titulo(atual);
+      parar();
+      zoom.showModal();
+      $(".plat-zoom__rolo", zoom).scrollLeft = 0;
+      push({ event: "plataforma_zoom", pagina: CONFIG.pagina, tela: titulo(atual) });
+    }
+    vista.addEventListener("click", function () {
+      if (ignorarClique) return;
+      abrirZoom();
+    });
+    if (zoom) {
+      $(".plat-zoom__fechar", zoom).addEventListener("click", function () { zoom.close(); });
+      /* toque no fundo escuro, fora da barra e da imagem, também fecha */
+      zoom.addEventListener("click", function (e) {
+        if (e.target === zoom || e.target.classList.contains("plat-zoom__rolo")) zoom.close();
+      });
+      zoom.addEventListener("close", function () { tocar(); vista.focus({ preventScroll: true }); });
+    }
+
+    /* a primeira materialização acontece quando a vitrine ENTRA na tela,
+       não no carregamento — senão ela roda onde ninguém está olhando */
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        visivel = entries[0].isIntersecting;
+        if (visivel && !revelou) { revelou = true; mostrar(atual); }
+        if (visivel) tocar(); else parar();
+      }, { threshold: 0.35 }).observe(caixa);
+    }
+
+    escreverLegenda();
+  })();
+
+  /* =========================================================
+     7 · ATMOSFERA
      ========================================================= */
 
   /* ─── estilhaços da colisão curta ──────────────────────────
