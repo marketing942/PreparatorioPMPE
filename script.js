@@ -41,15 +41,15 @@
        (A mesma URL está no fallback dos botões e no JSON-LD do index.html.) */
     checkout: "https://checkout.cppem.com.br/pay/preparatorio-online-para-a-policia-militar-de-pernambuco-pmpe-01",
 
-    /* Espelham a tela do checkout: "R$ 437,00 Total · Até 12 x R$ 44,68".
-       ⚠️ 12 × 44,68 = 536,16: o cartão TEM juros. A página não pode dizer
+    /* Espelham a tela do checkout: "R$ 437,00 Total · Até 12 x R$ 45,59".
+       ⚠️ 12 × 45,59 = 547,08: o cartão TEM juros. A página não pode dizer
        "sem juros" em lugar nenhum.
        `de` e `economia` vazios somem da tela (todo [data-se] sem valor fica
        hidden) — um preço cheio inventado seria número falso na cara do
        comprador. Se um dia houver "de/por" de verdade, é só preencher. */
     preco: {
       parcelas: "12x",
-      parcela:  "R$ 44,68",     // o número GRANDE da página
+      parcela:  "R$ 45,59",     // o número GRANDE da página
       nota:     "no cartão",    // o que acompanha a parcela
       vista:    "R$ 437,00",    // o total do checkout
       de:       "",             // valor cheio, riscado acima da parcela

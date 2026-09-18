@@ -1985,7 +1985,7 @@ html:has(.plat-zoom[open]) { overflow: hidden; }
   .preco__caixa { padding: 26px 18px; }
   .economia { padding: 13px 12px 15px; }
   .economia__cab { letter-spacing: 2.6px; }
-  /* "Garantir minha vaga por 12x R$ 44,68" não cabe numa linha em 360px: em
+  /* "Garantir minha vaga por 12x R$ 45,59" não cabe numa linha em 360px: em
      vez de cortar a seta, o rótulo quebra em duas dentro da mesma altura */
   .preco__cta .btn, .final .btn {
     height: auto; min-height: 60px; padding: 12px 18px;
